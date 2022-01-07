@@ -7,6 +7,9 @@
 .mrg-l-5 {
     margin-left: 5px;
 }
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
 div.alert {
     width: 250px;
     position: absolute;
