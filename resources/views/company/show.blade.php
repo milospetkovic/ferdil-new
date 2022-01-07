@@ -16,7 +16,9 @@
 
                 <a href="/company/show/{{ $company->id }}/worker/create" class="btn btn-sm btn-primary m-r">Dodaj radnika</a>
 
-                <a onclick="if (!confirm('Da li zaista želite da obrišete komitenta?! Brisanjem ćete obrisati i radnike iz ove kompanije!')) return false;"  href="{{ action('App\Http\Controllers\Company\CompanyController@delete', ['id' => $company->id ]) }}" class="btn btn-sm btn-danger pull-right"><span class="fa fa-check"></span>Obriši</a>
+                <a href="{{ action('App\Http\Controllers\Company\CompanyController@edit', [ 'id' => $company->id]) }}" class="btn btn-sm btn-warning mrg-l-5">Ažuriraj komitenta</a>
+
+                <a onclick="if (!confirm('Da li zaista želite da obrišete komitenta?! Brisanjem ćete obrisati i radnike iz ove kompanije!')) return false;"  href="{{ action('App\Http\Controllers\Company\CompanyController@delete', ['id' => $company->id ]) }}" class="btn btn-sm btn-danger pull-right"><span class="fa fa-check"></span>Obriši komitenta</a>
 
             </div>
 

@@ -47,7 +47,11 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        return view('company.create');
+        $data = [
+            'view_type' => 'create'
+        ];
+
+        return view('company.index', $data);
     }
 
     /**
@@ -58,7 +62,6 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-
         $this->validate($request, [
             'name' => 'required|unique:company|max:128'
         ]);
@@ -83,7 +86,6 @@ class CompanyController extends Controller
      */
     public function show(Request $request, $id)
     {
-
         $showinactive = $request->get('showinactive');
 
         $company = $this->companyManager->getCompany($id);
@@ -105,19 +107,39 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $company = Company::find($id);
+
+        $data = [
+            'view_type' => 'edit',
+            'company'   => $company
+        ];
+
+        return view('company.index', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $this->validate($request, [
+            'company_id' => 'required|integer',
+            'name'       => 'required|unique:company|max:128'
+        ]);
+
+        $id = $request->input('company_id');
+        $name = $request->input('name');
+
+        $company = Company::find($id);
+        $company->name = $name;
+        $company->save();
+
+        flash(EventMessages::ACTION_SUCCESS, "success");
+
+        return redirect()->action('App\Http\Controllers\Company\CompanyController@create');
     }
 
     /**
