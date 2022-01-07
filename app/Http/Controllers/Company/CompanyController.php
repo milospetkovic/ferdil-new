@@ -24,8 +24,8 @@ class CompanyController extends Controller
     {
         $this->middleware('auth');
 
-//        $this->companyManager = new CompanyManager();
-//        $this->workerManager = new WorkerManager();
+        $this->companyManager = new CompanyManager();
+        $this->workerManager = new WorkerManager();
     }
 
     /**
