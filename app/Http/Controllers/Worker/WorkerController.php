@@ -198,6 +198,12 @@ class WorkerController extends Controller
         flash(EventMessages::ACTION_ERROR, "error");
     }
 
+    /**
+     * Unactivate workers.
+     *
+     * @author Miloš Petković <milosp@telekod.com>
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function unactivateWorkers()
     {
         $returnMesg = $this->sendMessageService->unactivateWorkersIfConditionIsFulfilled();
@@ -207,7 +213,6 @@ class WorkerController extends Controller
         }
 
         return redirect()->action('App\Http\Controllers\HomeController@index');
-
     }
 
 }
