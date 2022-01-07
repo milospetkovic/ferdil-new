@@ -130,7 +130,7 @@ class CompanyController extends Controller
     }
 
     /**
-     *
+     * List all companies.
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -158,10 +158,11 @@ class CompanyController extends Controller
     }
 
     /**
-     * Delete company
+     * Delete company.
      *
      * @param Request $request
      * @param $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function delete(Request $request, $id)
     {
@@ -173,9 +174,7 @@ class CompanyController extends Controller
         }
 
         flash(EventMessages::ACTION_ERROR, "error");
-            return redirect()->action('App\Http\Controllers\Company\CompanyController@show', $id);
+        return redirect()->action('App\Http\Controllers\Company\CompanyController@show', $id);
     }
-
-
 
 }
