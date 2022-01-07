@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Worker;
 
-use App\Http\Model\Managers\CompanyManager;
-use App\Http\Model\Services\UnactivateWorkersService;
+use App\Models\Managers\CompanyManager;
+use App\Models\Services\UnactivateWorkersService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Model\Managers\WorkerManager;
+use App\Models\Managers\WorkerManager;
 use App\Helpers\EventMessages;
 
 class WorkerController extends Controller

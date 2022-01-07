@@ -6,7 +6,7 @@
  * Time: 20.06
  */
 
-namespace App\Http\Model\Entity;
+namespace App\Models\Entity;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 

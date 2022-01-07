@@ -11,7 +11,7 @@ namespace App\Http\Controllers\Android;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Helpers\EventMessages;
-use App\Http\Model\Managers\AndroidTokenManager;
+use App\Models\Managers\AndroidTokenManager;
 
 
 class TokenController extends Controller

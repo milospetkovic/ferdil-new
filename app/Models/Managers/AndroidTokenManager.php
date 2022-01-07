@@ -6,10 +6,10 @@
  * Time: 19.15
  */
 
-namespace App\Http\Model\Managers;
+namespace App\Models\Managers;
 
 use Illuminate\Support\Facades\DB;
-use App\Http\Model\Entity\AndroidToken as AndroidTokenEntity;
+use App\Models\Entity\AndroidToken as AndroidTokenEntity;
 use Carbon\Carbon;
 
 

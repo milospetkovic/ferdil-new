@@ -6,16 +6,16 @@
  * Time: 17.20
  */
 
-namespace App\Http\Model\Services;
+namespace App\Models\Services;
 
 use LaravelFCM\Message\OptionsBuilder;
 use LaravelFCM\Message\PayloadDataBuilder;
 use LaravelFCM\Message\PayloadNotificationBuilder;
 use FCM;
 
-use App\Http\Model\Managers\CompanyManager;
-use App\Http\Model\Managers\WorkerManager;
-use App\Http\Model\Managers\AndroidTokenManager;
+use App\Models\Managers\CompanyManager;
+use App\Models\Managers\WorkerManager;
+use App\Models\Managers\AndroidTokenManager;
 
 class SendNotificationToDevicesAboutWorkersService
 {

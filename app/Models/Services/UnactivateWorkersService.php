@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Http\Model\Services;
+namespace App\Models\Services;
 
 
-use App\Http\Model\Managers\WorkerManager;
+use App\Models\Managers\WorkerManager;
 
 class UnactivateWorkersService
 {

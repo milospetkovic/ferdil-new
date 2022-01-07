@@ -6,10 +6,10 @@
  * Time: 12.33
  */
 
-namespace App\Http\Model\Managers;
+namespace App\Models\Managers;
 
 use Illuminate\Support\Facades\DB;
-use App\Http\Model\Entity\Worker as WorkerEntity;
+use App\Models\Entity\Worker as WorkerEntity;
 use Carbon\Carbon;
 
 

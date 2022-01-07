@@ -10,9 +10,9 @@ namespace App\Http\Controllers\Firebase;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Model\Managers\CompanyManager;
+use App\Models\Managers\CompanyManager;
 use App\Helpers\EventMessages;
-use App\Http\Model\Managers\WorkerManager;
+use App\Models\Managers\WorkerManager;
 use Kreait\Firebase\Configuration;
 use Kreait\Firebase\Firebase;
 
