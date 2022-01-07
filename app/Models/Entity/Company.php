@@ -34,6 +34,6 @@ class Company extends Eloquent
      */
     public function workers()
     {
-        return $this->hasMany('App\Model\Entity\Worker', 'fk_company');
+        return $this->hasMany('App\Models\Entity\Worker', 'fk_company');
     }
 }

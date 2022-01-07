@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Models\Entity\Company;
+use App\Models\Entity\Worker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Managers\CompanyManager;
@@ -158,7 +160,7 @@ class CompanyController extends Controller
     }
 
     /**
-     * Delete company.
+     * Delete a company and company's linked workers.
      *
      * @param Request $request
      * @param $id
@@ -166,7 +168,7 @@ class CompanyController extends Controller
      */
     public function delete(Request $request, $id)
     {
-        $res = $this->companyManager->deleteCompany($id);
+        $res = Company::destroy($id);
 
         if ($res > 0) {
             flash(EventMessages::ACTION_SUCCESS, "success");
