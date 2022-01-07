@@ -42,6 +42,6 @@ class Worker extends Eloquent
      */
     public function company()
     {
-        return $this->belongsTo('App\Model\Entity\Company', 'fk_company');
+        return $this->belongsTo('App\Models\Entity\Company', 'fk_company');
     }
 }
