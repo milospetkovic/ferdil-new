@@ -1,0 +1,6 @@
+#ErrorDocument 401 /401.html
+#Protect Directory
+AuthName "Unesi korisnicko ime i sifru da bi skinuo aplikaciju"
+AuthType Basic
+AuthUserFile /var/www/html/fer-dil/ugovori-radnika/public/app/.htpasswd
+Require valid-user
