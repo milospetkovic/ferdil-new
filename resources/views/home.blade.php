@@ -28,6 +28,12 @@
                     <a class="btn btn-warning" href={{ action('App\Http\Controllers\Worker\WorkerController@unactivateWorkers') }}>Pokreni deaktivaciju radnika</a>
                 </div>
 
+                <div class="row mrg-t-10 text-center clearfix">
+                    <p class="text-muted mrg-t-10">
+                        <small>{{ vcs_info(false) }}</small>
+                    </p>
+                </div>
+
             </div>
         </div>
     </div>
