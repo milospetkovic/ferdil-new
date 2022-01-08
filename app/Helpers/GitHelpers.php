@@ -15,9 +15,10 @@ class GitHelpers
      * Return empty string if user is not logged in.
      *
      * @author Miloš Petković <ElitaSoft>
+     * @param  boolean $showDash Flag if dash should be included in the response.
      * @return string
      */
-    public static function getApplicationVersionInfo()
+    public static function getApplicationVersionInfo($showDash)
     {
         $ret = "";
         if (auth()->id()) {
@@ -26,7 +27,8 @@ class GitHelpers
             $gitBranchName = rtrim(preg_replace("/(.*?\/){2}/", '', $gitStr));
             $gitPathBranch = $gitBasePath.'/refs/heads/'.$gitBranchName;
             $gitHash = file_get_contents($gitPathBranch);
-            $ret .= " - Application Version: ".$gitBranchName."; Commit hash: ".$gitHash;
+            ($showDash) ? $dash=" - ": $dash="";
+            $ret .= $dash."Application Version: ".$gitBranchName."; Commit hash: ".$gitHash;
         }
         return $ret;
     }
