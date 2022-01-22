@@ -1,4 +1,9 @@
 {
     "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/js/moment-timezone-with-data.min.js": "/js/moment-timezone-with-data.min.js",
+    "/js/moment-with-locales.min.js": "/js/moment-with-locales.min.js",
+    "/js/bootstrap-datetimepicker.min.js": "/js/bootstrap-datetimepicker.min.js",
+    "/css/app.css": "/css/app.css",
+    "/css/bootstrap-datetimepicker.css": "/css/bootstrap-datetimepicker.css",
+    "/css/elitasoft.css": "/css/elitasoft.css"
 }

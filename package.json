@@ -25,6 +25,9 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "jquery": "^3.6.0",
+        "locale": "^0.1.0",
+        "moment": "^2.29.1",
         "vuetify": "^2.6.2"
     }
 }
