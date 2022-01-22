@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppVueController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Company\CompanyController;
@@ -20,7 +21,9 @@ use App\Http\Controllers\Android\TokenController;
 
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [ AppVueController::class, 'index']);
+
+//Route::get('/', [HomeController::class, 'index']);
 Route::get('/company/create', [CompanyController::class, 'create']);
 Route::post('/company/store', [CompanyController::class, 'store']);
 Route::get('/company/list', [CompanyController::class, 'listCompanies']);
