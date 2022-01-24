@@ -17,6 +17,7 @@ mix.js('resources/js/app.js', 'public/js')
   .js('resources/js/bootstrap-datetimepicker.min.js', 'public/js')
   .vue()
   .sass('resources/sass/app.scss', 'public/css')
+  .css('resources/css/app.css', 'public/css/main.css').sourceMaps()
   .css('resources/css/elitasoft.css', 'public/css')
   .css('resources/css/bootstrap-datetimepicker.css', 'public/css')
 ;
