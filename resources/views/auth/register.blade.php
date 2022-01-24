@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('app-vue')
 
 @section('content')
 <div class="col-md-8 col-md-offset-2">

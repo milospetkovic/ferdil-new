@@ -41,7 +41,7 @@
     @endif
 
     <div class="container">
-        <div classs="row">
+        <div class="row">
             <nav class="navbar navbar-default navbar-static-top">
                 <div class="navbar-header">
 
@@ -97,6 +97,8 @@
         <div class="row">
 
             @include('flash::message')
+
+            @yield('content')
 
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
