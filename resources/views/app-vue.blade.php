@@ -28,97 +28,31 @@
 </head>
 
 <body>
-    @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    <noscript>
+        <div class="text-center">
+            <strong>We're sorry but the application doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
         </div>
-    @endif
+    </noscript>
 
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <nav class="navbar navbar-default navbar-static-top">
-                <div class="navbar-header">
-
-                    {{-- Collapsed Hamburger Menu --}}
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    {{-- Branding Image --}}
-                    <a class="navbar-brand glyphicon glyphicon-home" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    {{-- Right Side Of Navbar --}}
-                    <ul class="nav navbar-nav navbar-right">
-                        {{-- Authentication Links  --}}
-                        @if (Auth::guest())
-                            <li class="pull-right"><a href="{{ url('/login') }}">Login</a></li>
-                            <li class="pull-right"><a href="{{ url('/register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="menu10" aria-expanded="false">
-                                    {{ Auth::user()->name }}
-                                </a>
-
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="menu10">
-                                    <li role="presentation">
-                                        <a href="{{ url('/logout') }}"
-                                           onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="row">
-
-            @include('flash::message')
-
-            @yield('content')
-
-            <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-
-                    <div id="app">
-                        <v-app app>
-                            <v-container>
-                                <v-btn color="primary">
-                                    Primary
-                                </v-btn>
-                                <v-btn color="secondary">
-                                    Secondary
-                                </v-btn>
-                                <v-btn color="error">
-                                    Error
-                                </v-btn>
-                            </v-container>
-                        </v-app>
-                    </div>
+            <div class="col-md-8 offset-md-2 text-center">
+                <div id="app">
+                    <v-app app>
+                        <v-container>
+                            <v-btn color="primary">
+                                Primary 456
+                            </v-btn>
+                            <v-btn color="secondary">
+                                Secondary
+                            </v-btn>
+                            <v-btn color="error">
+                                Error
+                            </v-btn>
+                        </v-container>
+                    </v-app>
                 </div>
             </div>
-
         </div>
     </div>
 
@@ -126,18 +60,6 @@
     <script src="{{ asset('/js/moment-timezone-with-data.min.js') }}"></script>
     <script src="{{ asset('/js/moment-with-locales.min.js') }}"></script>
     <script src="{{ asset('/js/bootstrap-datetimepicker.min.js') }}"></script>
-
-    @yield('pagescript')
-    @yield('scripts')
-
-    <script>
-      $('#flash-overlay-modal').modal();
-      $('div.alert').not('.alert-important').delay(2000).fadeOut(350);
-      $('.show-inactive').click(function() {
-        $(this).closest('form').submit();
-      });
-      $(".dropdown-toggle").dropdown();
-    </script>
 
 </body>
 </html>
