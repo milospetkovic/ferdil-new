@@ -33,11 +33,23 @@
 
 
 require('./bootstrap');
+import Vue from 'vue'
 window.Vue = require('vue').default;
 import vuetify from './vuetify';
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+import router from './router/index';
+import App from './views/App';
 
-const app = new Vue({
-  el: '#app',
-  vuetify
-});
+//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
+new Vue({
+    vuetify,
+    router,
+    render: h => h(App)
+}).$mount('#app');
+
+// const app = new Vue({
+//   el: '#app',
+//   vuetify,
+//     router,
+//     //render: h => (App)
+// });
