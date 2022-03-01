@@ -38,12 +38,14 @@ window.Vue = require('vue').default;
 import vuetify from './vuetify';
 import router from './router/index';
 import App from './views/App';
+import store from './store';
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 new Vue({
     vuetify,
     router,
+    store,
     render: h => h(App)
 }).$mount('#app');
 
