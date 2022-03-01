@@ -11,8 +11,6 @@
     <title>Vue - {{ config('app.name', 'Laravel') }}{{ vcs_info()}}</title>
 
     {{-- Styles --}}
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-{{--    <link href={{ asset("/css/app.css") }} rel="stylesheet">--}}
     <link href={{ asset("/css/main.css") }} rel="stylesheet">
     <link href={{ asset("/css/bootstrap-datetimepicker.css") }} rel="stylesheet">
     <link href={{ asset("/css/elitasoft.css") }} rel="stylesheet">
