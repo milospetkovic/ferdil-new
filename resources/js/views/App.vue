@@ -1,12 +1,14 @@
 <template>
 
     <v-app style="background-color: transparent !important;">
-        App.vue called
+
+        <header-component></header-component>
 
         <template
             v-if="this.$store.getters.isLoggedIn">
             Ulogovan je korisnik.
         </template>
+
         <template v-else>
             Korisnik NIJE ulogovan.
         </template>
@@ -17,12 +19,16 @@
 </template>
 
 <script>
-    export default {
-        name: 'App',
-        mounted() {
-            this.$store.commit('setAuthUser', window.auth_user);
+import HeaderComponent from "../components/HeaderComponent";
 
-            console.log('Sta je sa ovim: ', this.$store.getters.isLoggedIn);
-        }
-    };
+export default {
+    name: 'App',
+    components: {
+      HeaderComponent
+    },
+    mounted() {
+        this.$store.commit('setAuthUser', window.auth_user);
+        console.log('Da li je korisnik logovan (getter iz store-a): ', this.$store.getters.isLoggedIn);
+    }
+};
 </script>
