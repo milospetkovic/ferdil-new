@@ -13,30 +13,33 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand glyphicon glyphicon-home" href="#" @click.stop="this.navigate('test')">
+                    <a class="navbar-brand glyphicon glyphicon-home" href="/">
                         FERDIL
                     </a>
                 </div>
 
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                <div class="collapsea navbar-collapse" id="app-navbar-collapse">
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
-                        <li>Test</li>
                         <!-- Authentication Links -->
                         <template v-if="!this.$store.getters.isLoggedIn">
-                            <li><a href="#" @click.stop="this.navigate('test')">Login</a></li>
+                            <li>
+                                <router-link :to="{name: 'Login'}">
+                                    Login
+                                </router-link>
+                            </li>
                         </template>
                         <template v-else>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="menu10" aria-expanded="false">
-                                    {{ this.$store.getters.getUser }} <span class="caret"></span>
+                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="menu10">
+                                    {{ this.$store.getters.getUser.name }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="menu10">
                                     <li role="presentation">
                                         <a href="#"
-                                           @click.stop="this.navigate('test')">
+                                           @click.stop="doLogout()">
                                             Logout
                                         </a>
                                     </li>
@@ -57,7 +60,21 @@ export default {
         }
     },
     methods: {
-
+        goToLoginPage() {
+            //this.navigate('Login')
+            this.$router.load('/login')
+        },
+        doLogout() {
+            let self = this;
+            //alert('OK, sad logout');
+            axios.post('/logout').then(function(response, status, request) {
+                console.log('Logout response: ', response);
+                //this.navigate('Test');
+                self.$router.push('/test');
+            }, function() {
+                console.log('Logout failed');
+            });
+        }
     }
 }
 </script>
