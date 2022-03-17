@@ -42,6 +42,20 @@ import store from './store';
 
 //Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
+let currentRouteName = null;
+
+router.beforeEach((to, from, next) => {
+    //router.app.showSpinner = true
+    console.log(`${from.name} -> ${to.name}`)
+    currentRouteName = `${to.name}`
+    console.log('current route name: ', currentRouteName)
+    next()
+})
+
+router.afterEach(() => {
+    //router.app.showSpinner = false
+})
+
 new Vue({
     vuetify,
     router,

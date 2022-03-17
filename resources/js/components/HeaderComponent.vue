@@ -13,9 +13,9 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand glyphicon glyphicon-home" href="/">
+                    <router-link :class="'navbar-brand glyphicon glyphicon-home'" :to="{name: '/'}">
                         FERDIL
-                    </a>
+                    </router-link>
                 </div>
 
                 <div class="collapsea navbar-collapse" id="app-navbar-collapse">
