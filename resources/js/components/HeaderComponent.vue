@@ -70,7 +70,7 @@ export default {
             axios.post('/logout').then(function(response, status, request) {
                 console.log('Logout response: ', response);
                 //this.navigate('Test');
-                self.$router.push('/test');
+                self.$router.push('/');
             }, function() {
                 console.log('Logout failed');
             });

@@ -38,7 +38,7 @@
 <script>
     export default {
         mounted() {
-            console.log('Component mounted.')
+            console.log('Login component mounted.')
         },
         data() {
             return {
@@ -70,8 +70,13 @@
 
                     axios.post('/login', formContents).then(function(response, status, request) {
 
+                        console.log('response after login: ', response);
+
+                        // set authenticated user to the store.
+                        self.$store.commit('setAuthUser', window.auth_user);
+
                         //self.$store.
-                        self.$router.push('/test');
+                        self.$router.push('/');
 
                     }, function() {
                         console.log('failed login');
