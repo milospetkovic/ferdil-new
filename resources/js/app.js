@@ -33,11 +33,32 @@
 
 
 require('./bootstrap');
+import Vue from 'vue'
 window.Vue = require('vue').default;
 import vuetify from './vuetify';
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+import router from './router/index';
+import App from './views/App';
+import store from './store';
 
-const app = new Vue({
-  el: '#app',
-  vuetify
-});
+//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+
+let currentRouteName = null;
+
+router.beforeEach((to, from, next) => {
+    //router.app.showSpinner = true
+    console.log(`${from.name} -> ${to.name}`)
+    currentRouteName = `${to.name}`
+    console.log('current route name: ', currentRouteName)
+    next()
+})
+
+router.afterEach(() => {
+    //router.app.showSpinner = false
+})
+
+new Vue({
+    vuetify,
+    router,
+    store,
+    render: h => h(App)
+}).$mount('#app');
