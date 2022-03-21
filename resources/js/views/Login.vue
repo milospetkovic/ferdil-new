@@ -67,10 +67,9 @@
                 {
                     var formContents = jQuery("#createAdministrator").serialize();
 
-
                     axios.post('/login', formContents).then(function(response, status, request) {
 
-                        console.log('response after login: ', response);
+                        console.log('response after login: ', response, status, request);
 
                         // set authenticated user to the store.
                         self.$store.commit('setAuthUser', window.auth_user);
@@ -79,6 +78,8 @@
                         self.$router.push('/');
 
                     }, function() {
+
+                        self.errors.push('Login credentials not valid.')
                         console.log('failed login');
                     });
                 }

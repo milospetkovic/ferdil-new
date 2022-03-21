@@ -27,8 +27,14 @@ export default {
       HeaderComponent
     },
     mounted() {
-        this.$store.commit('setAuthUser', window.auth_user);
-        console.log('Da li je korisnik logovan (getter iz store-a): ', this.$store.getters.isLoggedIn);
-    }
+        console.log('Loaded App.vue');
+        // this.$store.commit('setAuthUser', window.auth_user);
+        // console.log('Da li je korisnik logovan (getter iz store-a): ', this.$store.getters.isLoggedIn);
+    },
+    computed: {
+        isUserLoggedIn() {
+            return this.$store.getters.isLoggedIn;
+        }
+    },
 };
 </script>

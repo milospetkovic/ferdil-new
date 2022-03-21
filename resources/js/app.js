@@ -62,10 +62,3 @@ new Vue({
     store,
     render: h => h(App)
 }).$mount('#app');
-
-// const app = new Vue({
-//   el: '#app',
-//   vuetify,
-//     router,
-//     //render: h => (App)
-// });

@@ -23,7 +23,7 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
-                        <template v-if="!this.$store.getters.isLoggedIn">
+                        <template v-if="!isUserLoggedIn">
                             <li>
                                 <router-link :to="{name: 'Login'}">
                                     Login
@@ -57,6 +57,11 @@ export default {
     data() {
         return {
 
+        }
+    },
+    computed: {
+        isUserLoggedIn() {
+            return this.$store.getters.isLoggedIn;
         }
     },
     methods: {
