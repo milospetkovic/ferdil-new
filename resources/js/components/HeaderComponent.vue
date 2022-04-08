@@ -14,40 +14,40 @@
 
                     <!-- Branding Image -->
                     <router-link :class="'navbar-brand glyphicon glyphicon-home'" :to="{name: '/'}">
-                        FERDIL
+                        Elitasoft - FerDil app
                     </router-link>
                 </div>
 
-                <div class="collapsea navbar-collapse" id="app-navbar-collapse">
+<!--                <div class="collapsea navbar-collapse" id="app-navbar-collapse">-->
 
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        <template v-if="!isUserLoggedIn">
-                            <li>
-                                <router-link :to="{name: 'Login'}">
-                                    Login
-                                </router-link>
-                            </li>
-                        </template>
-                        <template v-else>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="menu10">
-                                    {{ this.$store.getters.getUser.name }} <span class="caret"></span>
-                                </a>
+<!--                    &lt;!&ndash; Right Side Of Navbar &ndash;&gt;-->
+<!--                    <ul class="nav navbar-nav navbar-right">-->
+<!--                        &lt;!&ndash; Authentication Links &ndash;&gt;-->
+<!--                        <template v-if="!isUserLoggedIn">-->
+<!--                            <li>-->
+<!--                                <router-link :to="{name: 'Login'}">-->
+<!--                                    Login-->
+<!--                                </router-link>-->
+<!--                            </li>-->
+<!--                        </template>-->
+<!--                        <template v-else>-->
+<!--                            <li class="dropdown">-->
+<!--                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="menu10">-->
+<!--                                    {{ this.$store.getters.getUser.name }} <span class="caret"></span>-->
+<!--                                </a>-->
 
-                                <ul class="dropdown-menu" role="menu" aria-labelledby="menu10">
-                                    <li role="presentation">
-                                        <a href="#"
-                                           @click.stop="doLogout()">
-                                            Logout
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </template>
-                    </ul>
-                </div>
+<!--                                <ul class="dropdown-menu" role="menu" aria-labelledby="menu10">-->
+<!--                                    <li role="presentation">-->
+<!--                                        <a href="#"-->
+<!--                                           @click.stop="doLogout()">-->
+<!--                                            Logout-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </li>-->
+<!--                        </template>-->
+<!--                    </ul>-->
+<!--                </div>-->
             </div>
         </nav>
     </section>
