@@ -2,6 +2,11 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../api/axios'
 import router from '../router/index'
+import VuexPersistence from 'vuex-persist'
+
+const vuexLocal = new VuexPersistence({
+    storage: window.localStorage
+});
 
 Vue.use(Vuex);
 
@@ -48,5 +53,6 @@ export default new Vuex.Store({
             return state.token;
         }
     },
-    modules: {}
+    modules: {},
+    plugins: [vuexLocal.plugin]
 })

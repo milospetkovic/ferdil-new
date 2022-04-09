@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div v-if="isAuthenticated">
-            <h1>Welcome {{ user.name }}</h1>
+        <div v-if="isUserAuthenticated">
+            <h1>Welcome {{ loggedUser.name }}</h1>
             <button @click="testApi">Test API</button>
 
             <div class="text-center">
@@ -36,10 +36,11 @@
             // this.user();
         },
         computed: {
-            isAuthenticated() {
+            isUserAuthenticated() {
+                console.log('called this.$store.getters.isAuthenticated from home page');
                 return this.$store.getters.isAuthenticated;
             },
-            user() {
+            loggedUser() {
                 return this.$store.getters.user;
             }
         },
