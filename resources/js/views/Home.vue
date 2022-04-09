@@ -3,7 +3,15 @@
         <div v-if="isAuthenticated">
             <h1>Welcome {{ user.name }}</h1>
             <button @click="testApi">Test API</button>
-            <button @click="logOut">Logout</button>
+
+            <div class="text-center">
+                <button class="btn btn-primary" @click="logOut">Logout</button>
+            </div>
+
+            <div class="text-center">
+                <button type="button" class="btn btn-primary" @click="testApi">Test API (Logged!)</button>
+            </div>
+
         </div>
 
         <div v-else>
@@ -23,6 +31,10 @@
 
     export default {
         name: 'Home',
+        mounted() {
+            // this.isAuthenticated();
+            // this.user();
+        },
         computed: {
             isAuthenticated() {
                 return this.$store.getters.isAuthenticated;

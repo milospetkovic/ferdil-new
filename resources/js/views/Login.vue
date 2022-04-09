@@ -28,6 +28,12 @@
                 }
             }
         },
+        mounted() {
+            if (this.$store.getters.isAuthenticated) {
+                alert('You are already logged in');
+                this.$router.push('/');
+            }
+        },
         methods: {
             login() {
                 this.$store.dispatch('login', this.form);

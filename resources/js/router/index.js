@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
     {
@@ -12,7 +12,6 @@ const routes = [
     {
         path: '/login',
         name: 'Login',
-        //component: () => import('../views/Login-old.vue'),
         component: () => import('../views/Login.vue'),
     },
     {
@@ -20,10 +19,10 @@ const routes = [
         name: 'Test',
         component: () => import('../views/Test.vue')
     }
-]
+];
 
 const router = new VueRouter({
     routes
-})
+});
 
 export default router

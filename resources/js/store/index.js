@@ -16,6 +16,11 @@ export default new Vuex.Store({
             state.authenticated = true;
             state.token = data.token;
             state.user = data.user;
+        },
+        logoutUser(state) {
+            state.authenticated = false;
+            state.token = null;
+            state.user = null
         }
     },
     actions: {
@@ -25,6 +30,11 @@ export default new Vuex.Store({
             commit('authenticateUser', res.data);
             console.log('authenticateUser response: ', res.data);
             await router.push('/');
+        },
+        async logout({ commit }) {
+            const res = await axios.post('logout');
+            commit('logoutUser');
+            console.log('logoutUser response: ', res.data);
         }
     },
     getters: {
