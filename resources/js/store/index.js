@@ -40,6 +40,7 @@ export default new Vuex.Store({
             const res = await axios.post('logout');
             commit('logoutUser');
             console.log('logoutUser response: ', res.data);
+            await router.push('/');
         }
     },
     getters: {

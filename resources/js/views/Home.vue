@@ -5,7 +5,7 @@
             <button @click="testApi">Test API</button>
 
             <div class="text-center">
-                <button class="btn btn-primary" @click="logOut">Logout</button>
+                <button class="btn btn-primary" @click="logoutUser">Logout</button>
             </div>
 
             <div class="text-center">
@@ -49,9 +49,8 @@
                 const res = await axios.get('api/test');
                 console.log(res.data);
             },
-            async logOut() {
-                const res = await axios.get('api/test');
-                console.log(res.data);
+            async logoutUser() {
+                return this.$store.dispatch('logout');
             }
         },
     };
