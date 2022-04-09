@@ -1,12 +1,16 @@
 <?php
 
 use App\Http\Controllers\AppVueController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Worker\WorkerController;
 use App\Http\Controllers\Firebase\FirebaseBrozotController;
 use App\Http\Controllers\Android\TokenController;
+
+//
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +23,7 @@ use App\Http\Controllers\Android\TokenController;
 |
 */
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/', [ AppVueController::class, 'index']);
 
@@ -50,3 +54,8 @@ Route::get('/worker/unactivateworkers', [WorkerController::class, 'unactivateWor
 
 // URI to save token sent from android device: token - sent from android device, checkapptoken: string saved in .env file and in android app (must match)
 Route::get('/android/token/{token}/{checkapptoken}', [TokenController::class, 'checkIfTokenShouldBeStored']);
+
+
+// Routes for vue app.
+Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout']);

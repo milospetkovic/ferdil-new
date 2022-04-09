@@ -4,18 +4,10 @@
 
         <header-component></header-component>
 
-        <template
-            v-if="this.$store.getters.isLoggedIn">
-            Ulogovan je korisnik.
-        </template>
-
-        <template v-else>
-            Korisnik NIJE ulogovan.
-        </template>
-
         <router-view />
 
     </v-app>
+
 </template>
 
 <script>
@@ -28,13 +20,12 @@ export default {
     },
     mounted() {
         console.log('Loaded App.vue');
-        // this.$store.commit('setAuthUser', window.auth_user);
-        // console.log('Da li je korisnik logovan (getter iz store-a): ', this.$store.getters.isLoggedIn);
+    },
+    methods: {
+        //
     },
     computed: {
-        isUserLoggedIn() {
-            return this.$store.getters.isLoggedIn;
-        }
+        //
     },
 };
 </script>
