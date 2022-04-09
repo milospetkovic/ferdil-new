@@ -3,12 +3,17 @@
         <div v-if="isAuthenticated">
             <h1>Welcome {{ user.name }}</h1>
             <button @click="testApi">Test API</button>
+            <button @click="logOut">Logout</button>
         </div>
 
         <div v-else>
             <h2>You have to login first</h2>
 <!--            <a class="btn btn-warning" href="/login">Login</a>-->
             <router-link to="/login">Login</router-link>
+
+            <div class="text-center">
+                <button type="button" class="btn btn-primary" @click="testApi">Test API (not logged)</button>
+            </div>
         </div>
 
     </div>
@@ -18,12 +23,6 @@
 
     export default {
         name: 'Home',
-        methods: {
-            async testApi() {
-                const res = await axios.get('api/test');
-                console.log(res.data);
-            }
-        },
         computed: {
             isAuthenticated() {
                 return this.$store.getters.isAuthenticated;
@@ -31,9 +30,16 @@
             user() {
                 return this.$store.getters.user;
             }
-            // isUserLoggedIn() {
-            //     return this.$store.getters.isLoggedIn;
-            // }
+        },
+        methods: {
+            async testApi() {
+                const res = await axios.get('api/test');
+                console.log(res.data);
+            },
+            async logOut() {
+                const res = await axios.get('api/test');
+                console.log(res.data);
+            }
         },
     };
 </script>

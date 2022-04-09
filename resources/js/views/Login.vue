@@ -19,8 +19,6 @@
 </template>
 
 <script>
-    import axios from '../api/axios'
-
     export default {
         data() {
             return {
@@ -31,10 +29,8 @@
             }
         },
         methods: {
-            async login() {
-                await axios.get('sanctum/csrf-cookie');
-                const res = await axios.post('login', this.form);
-                console.log(res.data);
+            login() {
+                this.$store.dispatch('login', this.form);
             }
         }
     }

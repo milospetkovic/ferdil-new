@@ -13,7 +13,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <router-link :class="'navbar-brand glyphicon glyphicon-home'" :to="{name: '/'}">
+                    <router-link :class="'navbar-brand glyphicon glyphicon-home'" :to="{name: 'Home'}">
                         Elitasoft - FerDil app
                     </router-link>
                 </div>
