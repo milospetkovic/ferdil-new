@@ -31,11 +31,12 @@ class AuthController extends Controller
     public function logout()
     {
         if (auth()->check()) {
-            request()->session()->invalidate();
-            request()->session()->regenerateToken();
-            // Revoke all tokens...
+            //request()->session()->invalidate();
+            //request()->session()->regenerateToken();
+            // Revoke all tokens.
             request()->user()->tokens()->delete();
-            //$user->tokens()->delete();
+
+            // Logout user.
             Auth::logout();
         }
         return response()->noContent();
