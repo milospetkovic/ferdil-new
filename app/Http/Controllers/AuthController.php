@@ -33,6 +33,9 @@ class AuthController extends Controller
         if (auth()->check()) {
             request()->session()->invalidate();
             request()->session()->regenerateToken();
+            // Revoke all tokens...
+            request()->user()->tokens()->delete();
+            //$user->tokens()->delete();
             Auth::logout();
         }
         return response()->noContent();
