@@ -27,7 +27,7 @@ class Company extends Eloquent
     /**
      * @var array
      */
-    protected $fillable = ['created_at', 'updated_at', 'name', 'description', 'inactive'];
+    protected $fillable = ['fk_user', 'created_at', 'updated_at', 'name', 'description', 'inactive'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
