@@ -17,9 +17,6 @@
                     <ul v-for="(company, index) in this.$store.getters.getUserCompanies">
                         <li>{{ index }} - {{ company }}</li>
                     </ul>
-                    <v-progress-circular
-                        indeterminate
-                        color="primary" />
                     IMAAAA
                 </template>
                 <template v-else>
@@ -45,12 +42,12 @@
 </template>
 <script>
     const axios = require('axios');
-    import { VProgressCircular } from 'vuetify/lib'
+    //import { VProgressCircular } from 'vuetify/lib'
 
     export default {
         name: 'Home',
         components: {
-          VProgressCircular
+          //VProgressCircular
         },
         data() {
             return {
