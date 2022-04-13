@@ -107,7 +107,7 @@ class WorkerController extends Controller
             'last_name'         => 'required|max:128',
             'contract_start'    => 'required|date',
             'contract_end'      => 'required|date',
-            'active_until_date' => 'date',
+            'active_until_date' => 'nullable|date',
         ]);
 
         $workerID = $this->workerManager->storeWorker($request, $companyID);
