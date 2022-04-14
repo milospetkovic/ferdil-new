@@ -35,17 +35,20 @@ export default new Vuex.Store({
     actions: {
         async login({ commit }, credentials) {
             await axios.get('sanctum/csrf-cookie');
-            const res = await axios.post('login', credentials);
-            console.log('res je: ', res);
-            if (res.data.errors) {
-                console.log('errors in store');
-                alert('errors');
-            } else {
-                console.log('try to authenticate');
-                commit('authenticateUser', res.data);
-                console.log('authenticateUser response: ', res.data);
-                await router.push('/');
-            }
+            return new Promise((resolve, reject) => {
+                axios.post('login', credentials).then(function (res) {
+                    if (res.data.errors) {
+                        console.log('rejected because of an errors');
+                        reject(res.data);
+                    } else {
+                        console.log('authenticateUser response: ', res.data);
+                        commit('authenticateUser', res.data);
+                        router.push('/');
+                    }
+                }).catch(function (error) {
+                    reject(error.response.data);
+                })
+            })
         },
         async logout({ commit }) {
             const res = await axios.post('logout');

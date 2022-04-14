@@ -36,7 +36,9 @@
         },
         methods: {
             login() {
-                this.$store.dispatch('login', this.form);
+                this.$store.dispatch('login', this.form).catch(error => {
+                    alert('Error in login template...');
+                });
             }
         }
     }
