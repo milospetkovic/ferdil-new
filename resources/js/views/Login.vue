@@ -1,12 +1,6 @@
 <template>
     <div class="login-page">
 
-<!--        <v-alert-->
-<!--            dense-->
-<!--            prominent-->
-<!--            type="success"-->
-<!--        ></v-alert>-->
-
         <form @submit.prevent="login">
             <div class="text-center mb-3">
                 <label for="email">
@@ -28,14 +22,10 @@
 </template>
 
 <script>
-    //import VAlert from 'vuetify/lib';
     import lodash from 'lodash';
 
     export default {
         name: 'Login',
-        // components: {
-        //     VAlert
-        // },
         data() {
             return {
                 form: {
@@ -55,7 +45,11 @@
             }
         },
         methods: {
-            login: function () {
+            login() {
+
+                // Progress bar - show.
+                this.$root.showProgressBar = true;
+
                 this.$store.dispatch('login', this.form).then(result => {
 
                     // Show toast message.
@@ -79,8 +73,14 @@
 
                     // Show toast message.
                     this.$toast.error(errorMessage);
+
+                }).finally(() => {
+
+                    // Progress bar - hide.
+                    this.$root.showProgressBar = false;
+
                 });
-            }
+            },
         }
     }
 </script>

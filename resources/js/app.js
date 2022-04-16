@@ -45,7 +45,8 @@ import store from './store';
 let currentRouteName = null;
 
 router.beforeEach((to, from, next) => {
-    //router.app.showSpinner = true
+    // Progress bar - show.
+    router.app.showProgressBar = true;
     console.log(`${from.name} -> ${to.name}`)
     currentRouteName = `${to.name}`
     console.log('current route name: ', currentRouteName)
@@ -53,12 +54,18 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach(() => {
-    //router.app.showSpinner = false
+    // Progress bar - hide.
+    router.app.showProgressBar = false;
 })
 
 new Vue({
-    vuetify,
+    data() {
+        return {
+            showProgressBar: false,
+        }
+    },
     router,
     store,
+    vuetify,
     render: h => h(App)
 }).$mount('#app');
