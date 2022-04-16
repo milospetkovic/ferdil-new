@@ -51,9 +51,14 @@ export default new Vuex.Store({
             })
         },
         async logout({ commit }) {
-            const res = await axios.post('logout');
-            commit('logoutUser');
-            console.log('logoutUser response: ', res.data);
+            return new Promise((resolve, reject) => {
+                axios.post('logout').then(res => {
+                    commit('logoutUser');
+                    resolve(res.data);
+                }).catch(error => {
+                    reject(error.response.data);
+                });
+            });
         },
         async userCompanies({ commit }) {
             await axios.get('sanctum/csrf-cookie');

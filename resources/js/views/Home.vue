@@ -75,8 +75,16 @@
                 const res = await axios.get('api/test');
                 console.log(res.data);
             },
-            async logoutUser() {
-                return this.$store.dispatch('logout');
+            logoutUser() {
+                this.$store.dispatch('logout').then(res => {
+
+                    // Show toast message.
+                    this.$toast.success('You are successfully logged out');
+
+                }).catch(error => {
+                    // Show toast message.
+                    this.$toast.error('Something is wrong during logout');
+                });
             }
         },
     };
