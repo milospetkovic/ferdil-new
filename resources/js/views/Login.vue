@@ -48,7 +48,7 @@
             if (this.$store.getters.isAuthenticated) {
 
                 // Show toast message.
-                this.$toast.success(
+                this.$toast.warning(
                     'You are already logged in',
                     this.$store.getters.getToastOptions
                 );

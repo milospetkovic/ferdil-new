@@ -18,7 +18,7 @@ export default new Vuex.Store({
         userCompanies: null,
         toastOptions: {
             position: "top-right",
-            timeout: 2000,
+            timeout: 3500,
             closeOnClick: true,
             pauseOnFocusLoss: true,
             pauseOnHover: true,
