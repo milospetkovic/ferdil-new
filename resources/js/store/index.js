@@ -16,6 +16,20 @@ export default new Vuex.Store({
         user: null,
         token: null,
         userCompanies: null,
+        toastOptions: {
+            position: "top-right",
+            timeout: 2000,
+            closeOnClick: true,
+            pauseOnFocusLoss: true,
+            pauseOnHover: true,
+            draggable: true,
+            draggablePercent: 0.6,
+            showCloseButtonOnHover: false,
+            hideProgressBar: false,
+            closeButton: "button",
+            icon: true,
+            rtl: false
+        }
     },
     mutations: {
         authenticateUser(state, data) {
@@ -43,7 +57,7 @@ export default new Vuex.Store({
                     } else {
                         console.log('authenticateUser response: ', res.data);
                         commit('authenticateUser', res.data);
-                        router.push('/');
+                        resolve(res.data);
                     }
                 }).catch(function (error) {
                     reject(error.response.data);
@@ -60,7 +74,6 @@ export default new Vuex.Store({
             const res = await axios.post('api/user/companies');
             commit('setUserCompanies', res.data);
             console.log('setUserCompanies response: ', res.data);
-            //await router.push('/');
         },
     },
     getters: {
@@ -75,7 +88,10 @@ export default new Vuex.Store({
         },
         getUserCompanies(state) {
             return state.userCompanies;
-        }
+        },
+        getToastOptions(state) {
+            return state.toastOptions;
+        },
     },
     modules: {},
     plugins: [vuexLocal.plugin]
