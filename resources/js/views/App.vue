@@ -4,6 +4,11 @@
 
         <header-component></header-component>
 
+        <v-progress-linear
+            indeterminate
+            v-if="visibleProgressBar"
+        />
+
         <router-view />
 
     </v-app>
@@ -15,6 +20,7 @@ import Vue from 'vue';
 import HeaderComponent from "../components/HeaderComponent";
 import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
+import { VProgressLinear } from 'vuetify/lib';
 
 const toastOptions = {
     transition: "Vue-Toastification__bounce",
@@ -39,15 +45,23 @@ Vue.use(Toast, toastOptions);
 export default {
     name: 'App',
     components: {
-      HeaderComponent
+        HeaderComponent,
+        VProgressLinear,
+    },
+    data() {
+        return {
+            showProgressBar: false,
+        }
     },
     mounted() {
         console.log('Loaded App.vue');
     },
-    methods: {
-        //
-    },
     computed: {
+        visibleProgressBar() {
+            return this.$root.showProgressBar;
+        }
+    },
+    methods: {
         //
     },
 };

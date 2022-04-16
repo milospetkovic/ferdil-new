@@ -57,7 +57,6 @@
         mounted() {
             console.log('mounted Home view');
             if (this.$store.getters.isAuthenticated) {
-                console.log('OK');
                 this.companies = this.$store.dispatch('userCompanies');
             }
         },
@@ -76,6 +75,10 @@
                 console.log(res.data);
             },
             logoutUser() {
+
+                // Progress bar - show.
+                this.$root.showProgressBar = true;
+
                 this.$store.dispatch('logout').then(res => {
 
                     // Show toast message.
@@ -84,6 +87,11 @@
                 }).catch(error => {
                     // Show toast message.
                     this.$toast.error('Something is wrong during logout');
+                }).finally(() => {
+
+                    // Progress bar - hide.
+                    this.$root.showProgressBar = false;
+
                 });
             }
         },

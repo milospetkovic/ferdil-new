@@ -30,7 +30,7 @@ export default new Vuex.Store({
         },
         setUserCompanies(state, data) {
             state.userCompanies = data;
-        }
+        },
     },
     actions: {
         async login({ commit }, credentials) {
