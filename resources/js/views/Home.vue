@@ -12,11 +12,25 @@
                 <button type="button" class="btn btn-primary" @click="testApi">Test API (Logged!)</button>
             </div>
 
+            <div class="companies">
+                <template v-if="this.$store.getters.getUserCompanies">
+                    <ul v-for="(company, index) in this.$store.getters.getUserCompanies">
+                        <li>{{ index }} - {{ company }}</li>
+                    </ul>
+                    IMAAAA
+                </template>
+                <template v-else>
+                    NEMAAA
+                </template>
+                Here companies
+            </div>
+
         </div>
 
         <div v-else>
+
             <h2>You have to login first</h2>
-<!--            <a class="btn btn-warning" href="/login">Login</a>-->
+
             <router-link to="/login">Login</router-link>
 
             <div class="text-center">
@@ -28,12 +42,24 @@
 </template>
 <script>
     const axios = require('axios');
+    //import { VProgressCircular } from 'vuetify/lib'
 
     export default {
         name: 'Home',
+        components: {
+          //VProgressCircular
+        },
+        data() {
+            return {
+                companies: null
+            }
+        },
         mounted() {
-            // this.isAuthenticated();
-            // this.user();
+            console.log('mounted Home view');
+            if (this.$store.getters.isAuthenticated) {
+                console.log('OK');
+                this.companies = this.$store.dispatch('userCompanies');
+            }
         },
         computed: {
             isUserAuthenticated() {
@@ -49,8 +75,16 @@
                 const res = await axios.get('api/test');
                 console.log(res.data);
             },
-            async logoutUser() {
-                return this.$store.dispatch('logout');
+            logoutUser() {
+                this.$store.dispatch('logout').then(res => {
+
+                    // Show toast message.
+                    this.$toast.success('You are successfully logged out');
+
+                }).catch(error => {
+                    // Show toast message.
+                    this.$toast.error('Something is wrong during logout');
+                });
             }
         },
     };

@@ -3,51 +3,12 @@
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
-
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
                     <!-- Branding Image -->
                     <router-link :class="'navbar-brand glyphicon glyphicon-home'" :to="{name: 'Home'}">
                         Elitasoft - FerDil app
                     </router-link>
                 </div>
 
-<!--                <div class="collapsea navbar-collapse" id="app-navbar-collapse">-->
-
-<!--                    &lt;!&ndash; Right Side Of Navbar &ndash;&gt;-->
-<!--                    <ul class="nav navbar-nav navbar-right">-->
-<!--                        &lt;!&ndash; Authentication Links &ndash;&gt;-->
-<!--                        <template v-if="!isUserLoggedIn">-->
-<!--                            <li>-->
-<!--                                <router-link :to="{name: 'Login'}">-->
-<!--                                    Login-->
-<!--                                </router-link>-->
-<!--                            </li>-->
-<!--                        </template>-->
-<!--                        <template v-else>-->
-<!--                            <li class="dropdown">-->
-<!--                                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="menu10">-->
-<!--                                    {{ this.$store.getters.getUser.name }} <span class="caret"></span>-->
-<!--                                </a>-->
-
-<!--                                <ul class="dropdown-menu" role="menu" aria-labelledby="menu10">-->
-<!--                                    <li role="presentation">-->
-<!--                                        <a href="#"-->
-<!--                                           @click.stop="doLogout()">-->
-<!--                                            Logout-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                </ul>-->
-<!--                            </li>-->
-<!--                        </template>-->
-<!--                    </ul>-->
-<!--                </div>-->
             </div>
         </nav>
     </section>

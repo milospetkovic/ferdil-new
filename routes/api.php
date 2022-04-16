@@ -18,6 +18,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->post('/user/companies', function (Request $request) {
+    return response()->json([
+        1 => 'Company 1',
+        2 => 'Company 2',
+    ]);
+});
+
 //Route::get('test', function () {
 //    return response()->json(['message' => 'Hello world']);
 //});

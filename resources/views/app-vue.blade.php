@@ -20,10 +20,6 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     {{-- Scripts --}}
-    <script>
-        window.Laravel = {!! json_encode([ 'csrfToken' => csrf_token() ]); !!};
-        window.auth_user = {!! json_encode($auth_user); !!};
-    </script>
 </head>
 
 <body>
@@ -38,17 +34,6 @@
             <div class="col-md-8 offset-md-2 text-center">
                 <div id="app">
                     <v-app app>
-                        <v-container>
-                            <v-btn color="primary">
-                                Primary 456
-                            </v-btn>
-                            <v-btn color="secondary">
-                                Secondary
-                            </v-btn>
-                            <v-btn color="error">
-                                Error
-                            </v-btn>
-                        </v-container>
                     </v-app>
                 </div>
             </div>
@@ -56,9 +41,6 @@
     </div>
 
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('/js/moment-timezone-with-data.min.js') }}"></script>
-    <script src="{{ asset('/js/moment-with-locales.min.js') }}"></script>
-    <script src="{{ asset('/js/bootstrap-datetimepicker.min.js') }}"></script>
 
 </body>
 </html>
