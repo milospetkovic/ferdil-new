@@ -48,10 +48,7 @@
             if (this.$store.getters.isAuthenticated) {
 
                 // Show toast message.
-                this.$toast.warning(
-                    'You are already logged in',
-                    this.$store.getters.getToastOptions
-                );
+                this.$toast.warning('You are already logged in');
 
                 // Redirect user to home page.
                 this.$router.push('/');
@@ -62,10 +59,7 @@
                 this.$store.dispatch('login', this.form).then(result => {
 
                     // Show toast message.
-                    this.$toast.success(
-                        'You are successfully logged in',
-                        this.$store.getters.getToastOptions
-                    );
+                    this.$toast.success('You are successfully logged in');
 
                     // Redirect user to home page.
                     this.$router.push('/');
@@ -84,10 +78,7 @@
                     }
 
                     // Show toast message.
-                    this.$toast.error(
-                        errorMessage,
-                        this.$store.getters.getToastOptions
-                    );
+                    this.$toast.error(errorMessage);
                 });
             }
         }

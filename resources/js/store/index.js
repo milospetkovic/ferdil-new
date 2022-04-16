@@ -16,20 +16,6 @@ export default new Vuex.Store({
         user: null,
         token: null,
         userCompanies: null,
-        toastOptions: {
-            position: "top-right",
-            timeout: 3500,
-            closeOnClick: true,
-            pauseOnFocusLoss: true,
-            pauseOnHover: true,
-            draggable: true,
-            draggablePercent: 0.6,
-            showCloseButtonOnHover: false,
-            hideProgressBar: false,
-            closeButton: "button",
-            icon: true,
-            rtl: false
-        }
     },
     mutations: {
         authenticateUser(state, data) {
@@ -88,9 +74,6 @@ export default new Vuex.Store({
         },
         getUserCompanies(state) {
             return state.userCompanies;
-        },
-        getToastOptions(state) {
-            return state.toastOptions;
         },
     },
     modules: {},
