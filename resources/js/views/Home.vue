@@ -2,15 +2,16 @@
     <div>
         <div v-if="isUserAuthenticated">
             <h1>Welcome {{ loggedUser.name }}</h1>
-            <button @click="testApi">Test API</button>
+
+<!--            <button @click="testApi">Test API</button>-->
 
             <div class="text-center">
                 <button class="btn btn-primary" @click="logoutUser">Logout</button>
             </div>
 
-            <div class="text-center">
-                <button type="button" class="btn btn-primary" @click="testApi">Test API (Logged!)</button>
-            </div>
+<!--            <div class="text-center">-->
+<!--                <button type="button" class="btn btn-primary" @click="testApi">Test API (Logged!)</button>-->
+<!--            </div>-->
 
             <div class="companies">
                 <template v-if="this.$store.getters.getUserCompanies">
@@ -31,11 +32,11 @@
 
             <h2>You have to login first</h2>
 
-            <router-link to="/login">Login</router-link>
+            <router-link to="/login" :class="'btn btn-primary'">Login</router-link>
 
-            <div class="text-center">
-                <button type="button" class="btn btn-primary" @click="testApi">Test API (not logged)</button>
-            </div>
+<!--            <div class="text-center">-->
+<!--                <button type="button" class="btn btn-primary" @click="testApi">Test API (not logged)</button>-->
+<!--            </div>-->
         </div>
 
     </div>

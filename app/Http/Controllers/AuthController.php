@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User as UserModel;
 
 class AuthController extends Controller
 {
@@ -29,7 +30,12 @@ class AuthController extends Controller
         $validated = $validator->validated();
 
         if (Auth::attempt($validated)) {
+
+            // Get company of authenticated user.
+            $userCompany = auth()->user()->company;
+
             $token = auth()->user()->createToken('authToken')->plainTextToken;
+
             return response()->json([
                 'user' => auth()->user(),
                 'token' => $token

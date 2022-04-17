@@ -52,10 +52,15 @@ class CreateNewTablesAndAdjustOldTables extends Migration
             });
         }
 
-        // Link existing users with first company.
         if (Schema::hasColumn('users', 'fk_company')
         ) {
+            // Link existing users with first company.
             DB::table('users')->where('fk_company', '=', 0)->update(array('fk_company' => $this->firstCompanyId));
+
+            // Add foreign key `fk_company` in `users` table.
+            Schema::table('users', function (Blueprint $table) {
+                $table->foreign('fk_company')->references('id')->on('companies')->cascadeOnUpdate()->cascadeOnDelete();
+            });
         }
 
         // Add `fk_company` column to the `customers` table.

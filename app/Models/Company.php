@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User as UserModel;
 
 class Company extends Model
 {
@@ -22,5 +23,13 @@ class Company extends Model
      * @var array
      */
     protected $fillable = ['name', 'created_at', 'updated_at'];
+
+    /**
+     * Get users of the company.
+     */
+    public function users()
+    {
+        return $this->hasMany(UserModel::class, 'fk_company');
+    }
 
 }
