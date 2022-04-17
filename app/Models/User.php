@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Entity\Company as CompanyModel;
+use App\Models\Company as CompanyModel;
 
 class User extends Authenticatable
 {
@@ -43,9 +43,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function companies()
+    /**
+     * Get the company of the user.
+     */
+    public function company()
     {
-        $this->hasMany(CompanyModel::class, 'fk_user');
+        return $this->belongsTo(CompanyModel::class, 'fk_company');
     }
 
 }

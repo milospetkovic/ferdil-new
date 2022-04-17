@@ -13,8 +13,8 @@ class CreatePersonalAccessTokensTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('failed_jobs')) {
-            Schema::create('failed_jobs', function (Blueprint $table) {
+        if (!Schema::hasTable('personal_access_tokens')) {
+            Schema::create('personal_access_tokens', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->morphs('tokenable');
                 $table->string('name');
