@@ -14,9 +14,9 @@
 <!--            </div>-->
 
             <div class="companies">
-                <template v-if="this.$store.getters.getUserCompanies">
-                    <ul v-for="(company, index) in this.$store.getters.getUserCompanies">
-                        <li>{{ index }} - {{ company }}</li>
+                <template v-if="this.$store.getters.getUserCustomers">
+                    <ul v-for="(customer, index) in this.$store.getters.getUserCustomers">
+                        <li>{{ index }} - {{ customer }}</li>
                     </ul>
                     IMAAAA
                 </template>
@@ -52,13 +52,13 @@
         },
         data() {
             return {
-                companies: null
+                customers: null
             }
         },
         mounted() {
             console.log('mounted Home view');
             if (this.$store.getters.isAuthenticated) {
-                this.companies = this.$store.dispatch('userCompanies');
+                this.customers = this.$store.dispatch('userCustomers');
             }
         },
         computed: {
@@ -86,8 +86,10 @@
                     this.$toast.success('You are successfully logged out');
 
                 }).catch(error => {
+
                     // Show toast message.
                     this.$toast.error('Something is wrong during logout');
+
                 }).finally(() => {
 
                     // Progress bar - hide.

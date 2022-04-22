@@ -15,7 +15,7 @@ export default new Vuex.Store({
         authenticated: false,
         user: null,
         token: null,
-        userCompanies: null,
+        userCustomers: null,
     },
     mutations: {
         authenticateUser(state, data) {
@@ -28,8 +28,8 @@ export default new Vuex.Store({
             state.token = null;
             state.user = null
         },
-        setUserCompanies(state, data) {
-            state.userCompanies = data;
+        setUserCustomers(state, data) {
+            state.userCustomers = data;
         },
     },
     actions: {
@@ -60,11 +60,11 @@ export default new Vuex.Store({
                 });
             });
         },
-        async userCompanies({ commit }) {
+        async userCustomers({ commit }) {
             await axios.get('sanctum/csrf-cookie');
-            const res = await axios.post('api/user/companies');
-            commit('setUserCompanies', res.data);
-            console.log('setUserCompanies response: ', res.data);
+            const res = await axios.get('api/user/customers');
+            commit('setUserCustomers', res.data);
+            console.log('setUserCustomers response: ', res.data);
         },
     },
     getters: {
@@ -77,8 +77,8 @@ export default new Vuex.Store({
         userToken(state) {
             return state.token;
         },
-        getUserCompanies(state) {
-            return state.userCompanies;
+        getUserCustomers(state) {
+            return state.userCustomers;
         },
     },
     modules: {},
