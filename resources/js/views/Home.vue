@@ -3,27 +3,23 @@
         <div v-if="isUserAuthenticated">
             <h1>Welcome {{ loggedUser.name }}</h1>
 
-<!--            <button @click="testApi">Test API</button>-->
-
             <div class="text-center">
                 <button class="btn btn-primary" @click="logoutUser">Logout</button>
             </div>
 
-<!--            <div class="text-center">-->
-<!--                <button type="button" class="btn btn-primary" @click="testApi">Test API (Logged!)</button>-->
-<!--            </div>-->
+            <div class="text-center my-2">
+                <button type="button" class="btn btn-primary" @click="testApi">Test API (Logged!)</button>
+            </div>
 
             <div class="companies">
                 <template v-if="this.$store.getters.getUserCustomers">
                     <ul v-for="(customer, index) in this.$store.getters.getUserCustomers">
                         <li>{{ index }} - {{ customer }}</li>
                     </ul>
-                    IMAAAA
                 </template>
                 <template v-else>
-                    NEMAAA
+                    <div class="text-warning">Nemate klijente.</div>
                 </template>
-                Here companies
             </div>
 
         </div>

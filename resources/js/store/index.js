@@ -78,7 +78,8 @@ export default new Vuex.Store({
             return state.token;
         },
         getUserCustomers(state) {
-            return state.userCustomers;
+            //return state.userCustomers;
+            return null;
         },
     },
     modules: {},

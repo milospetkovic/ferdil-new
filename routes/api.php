@@ -18,12 +18,19 @@ use App\Http\Controllers\Api\CustomerController;
 // API routes under `auth:sanctum` middleware.
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
+    // Get user's customers
     Route::get('/user/customers', [ CustomerController::class, 'getUserCustomers' ]);
 
-
-    Route::get('/user', function (Request $request) {
+    // Get logged in user.
+    Route::get('/user', function(Request $request) {
         return $request->user();
     });
+
+    // Test route.
+    Route::get('/test', function() {
+        return response()->json(['message' => 'Hello world']);
+    });
+
 });
 
 //Route::get('test', function () {
