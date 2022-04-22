@@ -14,7 +14,7 @@
             <div class="companies">
                 <template v-if="this.$store.getters.getUserCustomers">
                     <ul v-for="(customer, index) in this.$store.getters.getUserCustomers">
-                        <li>{{ index }} - {{ customer }}</li>
+                        <li>{{ customer.id }} - {{ customer.name }}</li>
                     </ul>
                 </template>
                 <template v-else>
@@ -30,9 +30,10 @@
 
             <router-link to="/login" :class="'btn btn-primary'">Login</router-link>
 
-<!--            <div class="text-center">-->
-<!--                <button type="button" class="btn btn-primary" @click="testApi">Test API (not logged)</button>-->
-<!--            </div>-->
+            <div class="text-center my-2">
+                <button type="button" class="btn btn-primary" @click="testApi">Test API (not logged)</button>
+            </div>
+
         </div>
 
     </div>

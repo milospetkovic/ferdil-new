@@ -63,8 +63,8 @@ export default new Vuex.Store({
         async userCustomers({ commit }) {
             await axios.get('sanctum/csrf-cookie');
             const res = await axios.get('api/user/customers');
-            commit('setUserCustomers', res.data);
-            console.log('setUserCustomers response: ', res.data);
+            commit('setUserCustomers', res.data.data);
+            console.log('setUserCustomers response: ', res.data.data);
         },
     },
     getters: {
@@ -78,8 +78,7 @@ export default new Vuex.Store({
             return state.token;
         },
         getUserCustomers(state) {
-            //return state.userCustomers;
-            return null;
+            return state.userCustomers;
         },
     },
     modules: {},
