@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CustomerController;
+use App\Http\Controllers\Api\WorkerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,13 +19,16 @@ use App\Http\Controllers\Api\CustomerController;
 // API routes under `auth:sanctum` middleware.
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
-    // Get user's customers
+    // Get user's customers.
     Route::get('/user/customers', [ CustomerController::class, 'getUserCustomers' ]);
 
     // Get logged in user.
     Route::get('/user', function(Request $request) {
         return $request->user();
     });
+
+    // Get user's workers.
+    Route::get('/user/workers', [ WorkerController::class, 'getUserWorkers' ]);
 
     // Test route.
     Route::get('/test', function() {

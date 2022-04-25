@@ -24,7 +24,12 @@
                     </div>
 
                     <div class="my-2">
-                        <a class="btn btn-info" href="#nogo">Lista radnika</a>
+                        <a class="btn btn-info" href="#nogo">
+                            Lista radnika
+                            <span class="badge bg-secondary" title="Ukupan broj i broj aktivnih radnika">
+                                {{ userTotalWorkersCount }} ({{ userActiveWorkersCount }})
+                            </span>
+                        </a>
                     </div>
 
                     <div class="my-2">
@@ -129,6 +134,7 @@
             console.log('mounted Home view');
             if (this.$store.getters.isAuthenticated) {
                 this.$store.dispatch('userCustomers');
+                this.$store.dispatch('userWorkers');
             }
         },
         computed: {
@@ -141,6 +147,12 @@
             },
             userCustomersCount() {
                 return this.$store.getters.getUserCustomersCount;
+            },
+            userTotalWorkersCount() {
+                return this.$store.getters.getUserTotalWorkersCount;
+            },
+            userActiveWorkersCount() {
+                return this.$store.getters.getUserActiveWorkersCount;
             },
         },
         methods: {

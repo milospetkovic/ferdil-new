@@ -16,6 +16,7 @@ export default new Vuex.Store({
         user: null,
         token: null,
         userCustomers: [],
+        userWorkers: [],
     },
     mutations: {
         authenticateUser(state, data) {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
         },
         setUserCustomers(state, data) {
             state.userCustomers = data;
+        },
+        setUserWorkers(state, data) {
+            state.userWorkers = data;
         },
     },
     actions: {
@@ -66,6 +70,12 @@ export default new Vuex.Store({
             commit('setUserCustomers', res.data.data);
             console.log('setUserCustomers response: ', res.data.data);
         },
+        async userWorkers({ commit }) {
+            await axios.get('sanctum/csrf-cookie');
+            const res = await axios.get('api/user/workers');
+            commit('setUserWorkers', res.data.data);
+            console.log('setUserWorkers response: ', res.data.data);
+        },
     },
     getters: {
         isAuthenticated(state) {
@@ -82,7 +92,17 @@ export default new Vuex.Store({
         },
         getUserCustomersCount(state) {
             return state.userCustomers.length;
-        }
+        },
+        getUserTotalWorkersCount(state) {
+            return state.userWorkers.length;
+        },
+        getUserActiveWorkersCount(state) {
+            let allUserWorkers = state.userWorkers;
+            const activeUserWorkers = allUserWorkers.filter((item) => {
+                return item.inactive != 1;
+            });
+            return activeUserWorkers.length;
+        },
     },
     modules: {},
     plugins: [vuexLocal.plugin]
