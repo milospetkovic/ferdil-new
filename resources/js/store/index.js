@@ -15,7 +15,7 @@ export default new Vuex.Store({
         authenticated: false,
         user: null,
         token: null,
-        userCustomers: null,
+        userCustomers: [],
     },
     mutations: {
         authenticateUser(state, data) {
@@ -80,6 +80,9 @@ export default new Vuex.Store({
         getUserCustomers(state) {
             return state.userCustomers;
         },
+        getUserCustomersCount(state) {
+            return state.userCustomers.length;
+        }
     },
     modules: {},
     plugins: [vuexLocal.plugin]

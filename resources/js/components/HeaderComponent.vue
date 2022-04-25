@@ -1,14 +1,13 @@
 <template>
-    <section class="app-header">
-        <nav class="navbar navbar-default navbar-static-top">
+    <section class="app-header position-sticky">
+        <nav class="navbar navbar-light bg-light">
             <div class="container">
-                <div class="navbar-header">
+                <div class="navbar-brand">
                     <!-- Branding Image -->
                     <router-link :class="'navbar-brand glyphicon glyphicon-home'" :to="{name: 'Home'}">
-                        Elitasoft - FerDil app
+                        Elitasoft
                     </router-link>
                 </div>
-
             </div>
         </nav>
     </section>

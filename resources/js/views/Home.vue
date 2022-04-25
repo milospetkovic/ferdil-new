@@ -17,7 +17,10 @@
                     </div>
 
                     <div class="my-2">
-                        <a class="btn btn-info" href="#nogo">Lista komitenata</a>
+                        <a class="btn btn-info" href="#nogo">
+                            Lista komitenata
+                            <span class="badge bg-secondary" title="Ukupan broj komitenata">{{ userCustomersCount }}</span>
+                        </a>
                     </div>
 
                     <div class="my-2">
@@ -119,13 +122,13 @@
         },
         data() {
             return {
-                customers: null
+                //
             }
         },
         mounted() {
             console.log('mounted Home view');
             if (this.$store.getters.isAuthenticated) {
-                this.customers = this.$store.dispatch('userCustomers');
+                this.$store.dispatch('userCustomers');
             }
         },
         computed: {
@@ -135,7 +138,10 @@
             },
             loggedUser() {
                 return this.$store.getters.user;
-            }
+            },
+            userCustomersCount() {
+                return this.$store.getters.getUserCustomersCount;
+            },
         },
         methods: {
             async testApi() {
