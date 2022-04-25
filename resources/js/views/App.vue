@@ -4,10 +4,12 @@
 
         <header-component></header-component>
 
-        <v-progress-linear
-            indeterminate
-            v-if="visibleProgressBar"
-        />
+        <div class="container-progress-linear-bar">
+            <v-progress-linear
+                indeterminate
+                v-if="visibleProgressBar"
+            />
+        </div>
 
         <router-view />
 

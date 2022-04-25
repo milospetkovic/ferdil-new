@@ -16,3 +16,7 @@ div.alert {
     right: 20px;
     z-index: 9999;
 }
+.container-progress-linear-bar {
+    height: 4px;
+    margin-bottom: 0.25rem;
+}

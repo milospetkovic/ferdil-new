@@ -16,8 +16,6 @@
     <link href={{ asset("/css/elitasoft.css") }} rel="stylesheet">
 
     <!-- Scripts -->
-    <script src="//code.jquery.com/jquery.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     {{-- Scripts --}}
 </head>
@@ -30,8 +28,8 @@
     </noscript>
 
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-8 offset-md-2 text-center">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-6">
                 <div id="app">
                     <v-app app>
                     </v-app>

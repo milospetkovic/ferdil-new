@@ -1,64 +1,111 @@
 <template>
-    <div>
-        <div v-if="isUserAuthenticated">
-            <h1>Welcome {{ loggedUser.name }}</h1>
 
-<!--            <button @click="testApi">Test API</button>-->
+    <div class="card text-center">
 
-            <div class="text-center">
-                <button class="btn btn-primary" @click="logoutUser">Logout</button>
-            </div>
-
-<!--            <div class="text-center">-->
-<!--                <button type="button" class="btn btn-primary" @click="testApi">Test API (Logged!)</button>-->
-<!--            </div>-->
-
-            <div class="companies">
-                <template v-if="this.$store.getters.getUserCompanies">
-                    <ul v-for="(company, index) in this.$store.getters.getUserCompanies">
-                        <li>{{ index }} - {{ company }}</li>
-                    </ul>
-                    IMAAAA
-                </template>
-                <template v-else>
-                    NEMAAA
-                </template>
-                Here companies
-            </div>
-
+        <div class="card-header">
+            ~ Aplikacija za praćenje isteka ugovora radnika ~
         </div>
 
-        <div v-else>
+        <div class="card-body">
 
-            <h2>You have to login first</h2>
+            <div v-if="isUserAuthenticated">
 
-            <router-link to="/login" :class="'btn btn-primary'">Login</router-link>
+                <div class="my-2">
+                    <a class="btn btn-info" href="#nogo">Unos novog komitenta</a>
+                </div>
 
-<!--            <div class="text-center">-->
-<!--                <button type="button" class="btn btn-primary" @click="testApi">Test API (not logged)</button>-->
-<!--            </div>-->
+                <div class="my-2">
+                    <a class="btn btn-info" href="#nogo">
+                        Lista komitenata
+                        <span class="badge bg-secondary" title="Ukupan broj komitenata">{{ userCustomersCount }}</span>
+                    </a>
+                </div>
+
+                <div class="my-2">
+                    <a class="btn btn-info" href="#nogo">
+                        Lista radnika
+                        <span class="badge bg-secondary" title="Ukupan broj i broj aktivnih radnika">
+                            {{ userTotalWorkersCount }} ({{ userActiveWorkersCount }})
+                        </span>
+                    </a>
+                </div>
+
+                <div class="my-2">
+                    <a class="btn btn-warning" href="#nogo">Pošalji notifikacije</a>
+                </div>
+
+                <div class="my-2">
+                    <a class="btn btn-warning" href="#nogo">Pokreni deaktivaciju radnika</a>
+                </div>
+
+
+                <div class="mt-5">
+                    <button class="btn btn-outline-warning" @click="logoutUser">Izloguj se</button>
+                </div>
+
+            </div>
+
+            <div v-else>
+
+                <h2>Morate da se ulogujete da biste imali pristup aplikaciji.</h2>
+
+                <router-link to="/login" :class="'btn btn-primary'">Login</router-link>
+
+            </div>
+
+<!--                <div class="row mrg-t-10 text-center clearfix">-->
+<!--                    <a class="btn btn-info" href={{ action('App\Http\Controllers\Company\CompanyController@create') }}>Unos komitenata</a>-->
+<!--                </div>-->
+
+<!--                <div class="row mrg-t-10 text-center clearfix">-->
+<!--                    <a class="btn btn-info" href={{ action('App\Http\Controllers\Company\CompanyController@listCompanies') }}>Lista komitenata <span class="badge">{{ $companies_count }}</span></a>-->
+<!--                </div>-->
+
+<!--                <div class="row mrg-t-10 text-center clearfix">-->
+<!--                    <a class="btn btn-info" href={{ action('App\Http\Controllers\Worker\WorkerController@listWorkers') }}>Lista radnika <span class="badge">{{ $workers_count }}@if($active_workers_count) <span title="Broj aktivnih korisnika">({{ $active_workers_count }})</span>@endif</span></a>-->
+<!--                </div>-->
+
+<!--                <div class="row mrg-t-10 text-center clearfix">-->
+<!--                    <a class="btn btn-warning" href={{ action('App\Http\Controllers\Firebase\FirebaseBrozotController@sendNotifications') }}>Testiraj slanje notifikacija</a>-->
+<!--                </div>-->
+
+<!--                <div class="row mrg-t-10 text-center clearfix">-->
+<!--                    <a class="btn btn-warning" href={{ action('App\Http\Controllers\Worker\WorkerController@unactivateWorkers') }}>Pokreni deaktivaciju radnika</a>-->
+<!--                </div>-->
+
+<!--                <div class="row mrg-t-10 text-center clearfix">-->
+<!--                    <p class="text-muted mrg-t-10">-->
+<!--                        <small>{{ vcs_info(false) }}</small>-->
+<!--                    </p>-->
+<!--                </div>-->
+        </div>
+
+        <div class="card-footer text-muted">
+            <small>Show app version.</small>
+            <!--                    <small>{{ vcs_info(false) }}</small>-->
         </div>
 
     </div>
+
 </template>
 <script>
     const axios = require('axios');
-    //import { VProgressCircular } from 'vuetify/lib'
 
     export default {
         name: 'Home',
         components: {
-          //VProgressCircular
+          //
         },
         data() {
             return {
-                companies: null
+                //
             }
         },
         mounted() {
             console.log('mounted Home view');
             if (this.$store.getters.isAuthenticated) {
-                this.companies = this.$store.dispatch('userCompanies');
+                this.$store.dispatch('userCustomers');
+                this.$store.dispatch('userWorkers');
             }
         },
         computed: {
@@ -68,7 +115,16 @@
             },
             loggedUser() {
                 return this.$store.getters.user;
-            }
+            },
+            userCustomersCount() {
+                return this.$store.getters.getUserCustomersCount;
+            },
+            userTotalWorkersCount() {
+                return this.$store.getters.getUserTotalWorkersCount;
+            },
+            userActiveWorkersCount() {
+                return this.$store.getters.getUserActiveWorkersCount;
+            },
         },
         methods: {
             async testApi() {
@@ -86,8 +142,10 @@
                     this.$toast.success('You are successfully logged out');
 
                 }).catch(error => {
+
                     // Show toast message.
                     this.$toast.error('Something is wrong during logout');
+
                 }).finally(() => {
 
                     // Progress bar - hide.
