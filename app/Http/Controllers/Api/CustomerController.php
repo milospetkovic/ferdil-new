@@ -19,30 +19,7 @@ class CustomerController extends Controller
      */
     public function getUserCustomers()
     {
-        return CustomerResource::collection(CustomerModel::all());
-
-//        return response()->json([
-//            1 => 'Company 1',
-//            2 => 'Company 2',
-//            3 => 'Company 3',
-//        ]);
-
-
-//        // Get company of authenticated user.
-//        $userCompany = auth()->user()->company;
-//
-//        $token = auth()->user()->createToken('authToken')->plainTextToken;
-//
-//        return response()->json([
-//            'user' => auth()->user(),
-//            'token' => $token
-//        ]);
-//
-//
-//        return response()->json([
-//            'errors' => true,
-//            'messages' => "Invalid credentials"
-//        ]);
+        return CustomerResource::collection(CustomerModel::where('fk_company', auth()->user()->company->id)->get());
     }
 
 }
