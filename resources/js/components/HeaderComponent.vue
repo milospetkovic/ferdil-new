@@ -21,8 +21,10 @@
                         <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
 
                             <template v-if="!this.$store.getters.isAuthenticated">
-                                <li><a href="/login">Login</a></li>
-                                <li><a href="/register">Register</a></li>
+                                <li>
+                                    <router-link to="/login">Login</router-link>
+                                </li>
+<!--                                <li><a href="/register">Register</a></li>-->
                             </template>
 
                             <template v-else>
