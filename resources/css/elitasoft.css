@@ -20,3 +20,8 @@ div.alert {
     height: 4px;
     margin-bottom: 0.25rem;
 }
+section.app-header {
+    border: 1px solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+    overflow: hidden;
+}

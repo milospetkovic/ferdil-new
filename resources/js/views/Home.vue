@@ -3,7 +3,7 @@
     <div class="card text-center">
 
         <div class="card-header">
-            ~ Aplikacija za praćenje isteka ugovora radnika ~
+            <strong>~ Aplikacija za praćenje isteka ugovora radnika ~</strong>
         </div>
 
         <div class="card-body">

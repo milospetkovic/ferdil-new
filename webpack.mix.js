@@ -20,4 +20,5 @@ mix.js('resources/js/app.js', 'public/js')
   .css('resources/css/app.css', 'public/css/main.css').sourceMaps()
   .css('resources/css/elitasoft.css', 'public/css')
   .css('resources/css/bootstrap-datetimepicker.css', 'public/css')
+  .copy('resources/assets/img', 'public/images')
 ;
