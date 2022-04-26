@@ -38,11 +38,6 @@
                     <a class="btn btn-warning" href="#nogo">Pokreni deaktivaciju radnika</a>
                 </div>
 
-
-                <div class="mt-5">
-                    <button class="btn btn-outline-warning" @click="logoutUser">Izloguj se</button>
-                </div>
-
             </div>
 
             <div v-else>
@@ -131,28 +126,7 @@
                 const res = await axios.get('api/test');
                 console.log(res.data);
             },
-            logoutUser() {
 
-                // Progress bar - show.
-                this.$root.showProgressBar = true;
-
-                this.$store.dispatch('logout').then(res => {
-
-                    // Show toast message.
-                    this.$toast.success('You are successfully logged out');
-
-                }).catch(error => {
-
-                    // Show toast message.
-                    this.$toast.error('Something is wrong during logout');
-
-                }).finally(() => {
-
-                    // Progress bar - hide.
-                    this.$root.showProgressBar = false;
-
-                });
-            }
         },
     };
 </script>
