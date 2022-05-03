@@ -1,6 +1,11 @@
 <template>
     <div class="customer-page">
-        Here customer page
+        <div class="card-header">
+            <strong>~ Unos komitenta ~</strong>
+        </div>
+        <div class="card-body">
+            Here form
+        </div>
     </div>
 </template>
 

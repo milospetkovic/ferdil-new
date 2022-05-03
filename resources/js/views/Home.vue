@@ -1,6 +1,5 @@
 <template>
-
-    <div class="card text-center">
+    <div class="home-page">
 
         <div class="card-header">
             <strong>~ Aplikacija za praćenje isteka ugovora radnika ~</strong>
@@ -48,31 +47,6 @@
 
             </div>
 
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <a class="btn btn-info" href={{ action('App\Http\Controllers\Company\CompanyController@create') }}>Unos komitenata</a>-->
-<!--                </div>-->
-
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <a class="btn btn-info" href={{ action('App\Http\Controllers\Company\CompanyController@listCompanies') }}>Lista komitenata <span class="badge">{{ $companies_count }}</span></a>-->
-<!--                </div>-->
-
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <a class="btn btn-info" href={{ action('App\Http\Controllers\Worker\WorkerController@listWorkers') }}>Lista radnika <span class="badge">{{ $workers_count }}@if($active_workers_count) <span title="Broj aktivnih korisnika">({{ $active_workers_count }})</span>@endif</span></a>-->
-<!--                </div>-->
-
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <a class="btn btn-warning" href={{ action('App\Http\Controllers\Firebase\FirebaseBrozotController@sendNotifications') }}>Testiraj slanje notifikacija</a>-->
-<!--                </div>-->
-
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <a class="btn btn-warning" href={{ action('App\Http\Controllers\Worker\WorkerController@unactivateWorkers') }}>Pokreni deaktivaciju radnika</a>-->
-<!--                </div>-->
-
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <p class="text-muted mrg-t-10">-->
-<!--                        <small>{{ vcs_info(false) }}</small>-->
-<!--                    </p>-->
-<!--                </div>-->
         </div>
 
         <div class="card-footer text-muted">
