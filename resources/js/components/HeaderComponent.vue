@@ -36,7 +36,7 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <button class="btn btn-outline-warning" @click="logoutUser">
+                                    <button class="btn btn-outline-warning" @click="logoutUser" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
                                         Izloguj se
                                     </button>
                                 </li>
