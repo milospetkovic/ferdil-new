@@ -11,7 +11,7 @@
             <div v-if="isUserAuthenticated">
 
                 <div class="my-2">
-                    <a class="btn btn-info" href="#nogo">Unos novog komitenta</a>
+                    <router-link to="/customer" :class="'btn btn-info'">Unos novog komitenta</router-link>
                 </div>
 
                 <div class="my-2">
