@@ -67,11 +67,11 @@
             saveCustomer() {
 
                 let rootComponent = this.$root;
+                let requestToast = this.$toast;
+                let currentModels = this.fields;
 
                 // Progress bar - show.
                 rootComponent.showProgressBar = true;
-
-                let requestToast = this.$toast;
 
                 axios.get('sanctum/csrf-cookie');
 
@@ -84,7 +84,11 @@
 
                     //console.log('success response', res);
 
+                    // Show toast message.
                     requestToast.success(`Uspešno unešen komitent: ${res.data.data.name}`);
+
+                    // Clear field.
+                    currentModels.name = '';
 
                 }).catch(function(error) {
 
