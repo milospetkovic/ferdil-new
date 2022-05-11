@@ -4,28 +4,40 @@
             <strong>~ Lista komitenata ~</strong>
         </div>
         <div class="card-body">
-            <template v-if="customers.length">
-                <ul v-for="customer in customers">
-                    <li>{{ customer.name}}</li>
-                </ul>
+            <template v-if="showLoadingIcon">
+                <v-progress-circular
+                    indeterminate
+                    color="primary" />
             </template>
             <template v-else>
-                <div class="text-warning text-center">
-                    <strong>Nema unešenih komitenata</strong>
-                </div>
+                <template v-if="customers.length">
+                    <ul v-for="customer in customers">
+                        <li>{{ customer.name}}</li>
+                    </ul>
+                </template>
+                <template v-else>
+                    <div class="text-warning text-center">
+                        <strong>Nema unešenih komitenata</strong>
+                    </div>
+                </template>
             </template>
         </div>
     </div>
 </template>
 
 <script>
+    import { VProgressCircular } from 'vuetify/lib'
 
     export default {
         name: 'CustomersList',
         data() {
             return {
-                customers: {}
+                customers: {},
+                showLoadingIcon: false,
             }
+        },
+        beforeMount() {
+            this.showLoadingIcon = true;
         },
         mounted() {
             let rootComponent = this.$root;
@@ -67,6 +79,7 @@
                 rootComponent.showProgressBar = false;
 
                 this.customers = fetchedCustomers;
+                this.showLoadingIcon = false;
             });
         },
         computed: {
