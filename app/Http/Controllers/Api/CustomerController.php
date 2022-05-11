@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer as CustomerModel;
+use App\Http\Requests\CustomerRequest;
 
 class CustomerController extends Controller
 {
@@ -20,6 +21,14 @@ class CustomerController extends Controller
     public function getUserCustomers()
     {
         return CustomerResource::collection(CustomerModel::where('fk_company', auth()->user()->company->id)->get());
+    }
+
+    public function store(CustomerRequest $request)
+    {
+        $data = $request->all();
+        $data['fk_company'] = auth()->user()->company->id;
+        $customer = CustomerModel::create($data);
+        return new CustomerResource($customer);
     }
 
 }

@@ -11,7 +11,11 @@
             />
         </div>
 
-        <router-view />
+        <div class="card text-center">
+
+            <router-view />
+
+        </div>
 
     </v-app>
 

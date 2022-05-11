@@ -1,9 +1,8 @@
 <template>
-
-    <div class="card text-center">
+    <div class="home-page">
 
         <div class="card-header">
-            ~ Aplikacija za praćenje isteka ugovora radnika ~
+            <strong>~ Aplikacija za praćenje isteka ugovora radnika ~</strong>
         </div>
 
         <div class="card-body">
@@ -11,7 +10,7 @@
             <div v-if="isUserAuthenticated">
 
                 <div class="my-2">
-                    <a class="btn btn-info" href="#nogo">Unos novog komitenta</a>
+                    <router-link to="/customer" :class="'btn btn-info'">Unos novog komitenta</router-link>
                 </div>
 
                 <div class="my-2">
@@ -38,11 +37,6 @@
                     <a class="btn btn-warning" href="#nogo">Pokreni deaktivaciju radnika</a>
                 </div>
 
-
-                <div class="mt-5">
-                    <button class="btn btn-outline-warning" @click="logoutUser">Izloguj se</button>
-                </div>
-
             </div>
 
             <div v-else>
@@ -53,31 +47,6 @@
 
             </div>
 
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <a class="btn btn-info" href={{ action('App\Http\Controllers\Company\CompanyController@create') }}>Unos komitenata</a>-->
-<!--                </div>-->
-
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <a class="btn btn-info" href={{ action('App\Http\Controllers\Company\CompanyController@listCompanies') }}>Lista komitenata <span class="badge">{{ $companies_count }}</span></a>-->
-<!--                </div>-->
-
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <a class="btn btn-info" href={{ action('App\Http\Controllers\Worker\WorkerController@listWorkers') }}>Lista radnika <span class="badge">{{ $workers_count }}@if($active_workers_count) <span title="Broj aktivnih korisnika">({{ $active_workers_count }})</span>@endif</span></a>-->
-<!--                </div>-->
-
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <a class="btn btn-warning" href={{ action('App\Http\Controllers\Firebase\FirebaseBrozotController@sendNotifications') }}>Testiraj slanje notifikacija</a>-->
-<!--                </div>-->
-
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <a class="btn btn-warning" href={{ action('App\Http\Controllers\Worker\WorkerController@unactivateWorkers') }}>Pokreni deaktivaciju radnika</a>-->
-<!--                </div>-->
-
-<!--                <div class="row mrg-t-10 text-center clearfix">-->
-<!--                    <p class="text-muted mrg-t-10">-->
-<!--                        <small>{{ vcs_info(false) }}</small>-->
-<!--                    </p>-->
-<!--                </div>-->
         </div>
 
         <div class="card-footer text-muted">
@@ -131,28 +100,7 @@
                 const res = await axios.get('api/test');
                 console.log(res.data);
             },
-            logoutUser() {
 
-                // Progress bar - show.
-                this.$root.showProgressBar = true;
-
-                this.$store.dispatch('logout').then(res => {
-
-                    // Show toast message.
-                    this.$toast.success('You are successfully logged out');
-
-                }).catch(error => {
-
-                    // Show toast message.
-                    this.$toast.error('Something is wrong during logout');
-
-                }).finally(() => {
-
-                    // Progress bar - hide.
-                    this.$root.showProgressBar = false;
-
-                });
-            }
         },
     };
 </script>
