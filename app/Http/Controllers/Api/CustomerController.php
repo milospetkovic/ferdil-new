@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
@@ -29,6 +31,15 @@ class CustomerController extends Controller
         $data['fk_company'] = auth()->user()->company->id;
         $customer = CustomerModel::create($data);
         return new CustomerResource($customer);
+    }
+
+    public function index(Request $request)
+    {
+        $customers = CustomerModel::where('fk_company', auth()->user()->company->id)
+            ->orderBy('name', 'asc')
+            ->get(['id', 'name'])
+        ;
+        return new JsonResponse($customers);
     }
 
 }
