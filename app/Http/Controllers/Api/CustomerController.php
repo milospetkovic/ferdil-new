@@ -26,6 +26,7 @@ class CustomerController extends Controller
     public function store(CustomerRequest $request)
     {
         $data = $request->all();
+        $data['fk_company'] = auth()->user()->company->id;
         $customer = CustomerModel::create($data);
         return new CustomerResource($customer);
     }
