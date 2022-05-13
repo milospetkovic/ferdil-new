@@ -26,7 +26,6 @@
                                 class="mx-4"
                             ></v-text-field>
                         </template>
-
                     </v-data-table>
                 </template>
                 <template v-else>
@@ -81,9 +80,6 @@
 
             // Make a request.
             axios.get('api/customers').then(function(res) {
-
-                //alert('success :)))');
-                //console.log('success response', res);
 
                 fetchedCustomers = res.data;
 
