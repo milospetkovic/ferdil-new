@@ -1,5 +1,5 @@
 <template>
-    <section class="app-header mt-1 position-sticky">
+    <section class="app-header mb-1 position-sticky">
         <nav class="navbar navbar-light bg-light">
             <div class="container">
                 <div class="navbar-brand">
