@@ -14,7 +14,7 @@
                 </div>
 
                 <div class="my-2">
-                    <router-link to="/customers/list" :class="'btn btn-info'">
+                    <router-link to="/customers" :class="'btn btn-info'">
                         Lista komitenata
                         <span class="badge bg-secondary" title="Ukupan broj komitenata">{{ userCustomersCount }}</span>
                     </router-link>

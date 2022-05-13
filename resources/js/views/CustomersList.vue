@@ -18,6 +18,7 @@
                         class="elevation-1"
                         :search="search"
                         :custom-filter="searchCustomers"
+                        @click:row="showCustomer"
                     >
                         <template #item.customer_workers_count="{ item }">
                             <span class="badge alert-info" title="Broj radnika za komitenta">
@@ -126,6 +127,46 @@
                     typeof value === 'string' &&
                     value.toString().toLocaleLowerCase().indexOf(search.toString().toLocaleLowerCase()) !== -1
             },
+            showCustomer(customer) {
+                let rootComponent = this.$root;
+                let requestToast = this.$toast;
+                let fetchedCustomers = this.customers;
+
+                // Progress bar - show.
+                rootComponent.showProgressBar = true;
+
+                axios.get('sanctum/csrf-cookie');
+
+                // Make a request.
+                axios.get('api/customer/' + customer.id).then(function(res) {
+
+                    fetchedCustomers = res.data;
+
+                }).catch(function(error) {
+
+                    // Get error message.
+                    let errorMessage = '';
+
+                    if (typeof(error.messages) === 'object') {
+                        Object.entries(error.messages).forEach(([key, val]) => {
+                            errorMessage += val + "\n";
+                        });
+                    } else {
+                        errorMessage = error.message;
+                    }
+
+                    // Show toast message.
+                    requestToast.error(errorMessage);
+
+                }).finally(() => {
+
+                    // Progress bar - hide.
+                    rootComponent.showProgressBar = false;
+
+                    this.customers = fetchedCustomers;
+                    this.showLoadingIcon = false;
+                });
+            }
         }
     }
 </script>

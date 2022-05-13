@@ -26,24 +26,12 @@
                         </button>
                     </div>
                 </div>
-
-<!--                <div class="form-group row">-->
-<!--                    <label for="email" class="col-md-4 col-form-label text-md-right">Your E-Mail Address</label>-->
-
-<!--                    <div class="col-md-6">-->
-<!--                        <input id="email" type="email" class="form-control" name="email" v-model="fields.email" required autocomplete="email">-->
-<!--                        <div class="alert alert-danger" v-if="errors && errors.email">-->
-<!--                            {{ errors.email[0] }}-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
             </form>
         </div>
     </div>
 </template>
 
 <script>
-    //import lodash from 'lodash';
 
     export default {
         name: 'Customer',
@@ -80,7 +68,7 @@
                 };
 
                 // Make a request.
-                axios.post('api/customers', sendData).then(function(res) {
+                axios.post('api/customer', sendData).then(function(res) {
 
                     //console.log('success response', res);
 
