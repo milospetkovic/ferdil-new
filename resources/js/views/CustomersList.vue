@@ -16,7 +16,18 @@
                         :items="customers"
                         :items-per-page="15"
                         class="elevation-1"
-                    ></v-data-table>
+                        :search="search"
+                        :custom-filter="searchCustomers"
+                    >
+                        <template v-slot:top>
+                            <v-text-field
+                                v-model="search"
+                                label="Pretraga komitenata"
+                                class="mx-4"
+                            ></v-text-field>
+                        </template>
+
+                    </v-data-table>
                 </template>
                 <template v-else>
                     <div class="text-warning text-center">
@@ -36,6 +47,7 @@
         name: 'CustomersList',
         data() {
             return {
+                search: '',
                 customers_table_header: [
                     {
                         text: 'Ime komitenta',
@@ -104,7 +116,12 @@
             //
         },
         methods: {
-            //
+            searchCustomers (value, search, item) {
+                return value != null &&
+                    search != null &&
+                    typeof value === 'string' &&
+                    value.toString().toLocaleLowerCase().indexOf(search.toString().toLocaleLowerCase()) !== -1
+            },
         }
     }
 </script>
