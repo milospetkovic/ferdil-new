@@ -2,14 +2,14 @@
 
     <v-app style="background-color: transparent !important;">
 
-        <header-component></header-component>
-
         <div class="container-progress-linear-bar">
             <v-progress-linear
                 indeterminate
                 v-if="visibleProgressBar"
             />
         </div>
+
+        <header-component></header-component>
 
         <div class="card text-center">
 
