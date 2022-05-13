@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer as CustomerModel;
 use App\Http\Requests\CustomerRequest;
+use App\Models\Worker as WorkerModel;
 
 class CustomerController extends Controller
 {
@@ -35,10 +37,18 @@ class CustomerController extends Controller
 
     public function index(Request $request)
     {
-        $customers = CustomerModel::where('fk_company', auth()->user()->company->id)
-            ->orderBy('name', 'asc')
-            ->get(['id', 'name'])
+        $customers = DB::table('customers AS c')
+            ->select('c.id', 'c.name',
+                // Count all workers linked with customer.
+                DB::raw('(SELECT COUNT(*) FROM workers as w1 WHERE w1.fk_customer = c.id) AS customer_count_all_workers'),
+                // Count active workers linked with customer.
+                DB::raw('(SELECT COUNT(*) FROM workers as w2 WHERE w2.fk_customer = c.id AND (w2.inactive != 1 OR w2.inactive IS NULL)) AS customer_count_active_workers')
+            )
+            ->where('c.fk_company', auth()->user()->company->id)
+            ->orderBy('c.name', 'asc')
+            ->get()
         ;
+
         return new JsonResponse($customers);
     }
 
