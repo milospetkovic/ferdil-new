@@ -11,9 +11,12 @@
             </template>
             <template v-else>
                 <template v-if="customers.length">
-                    <ul v-for="customer in customers">
-                        <li>{{ customer.name}}</li>
-                    </ul>
+                    <v-data-table
+                        :headers="customers_table_header"
+                        :items="customers"
+                        :items-per-page="5"
+                        class="elevation-1"
+                    ></v-data-table>
                 </template>
                 <template v-else>
                     <div class="text-warning text-center">
@@ -26,12 +29,27 @@
 </template>
 
 <script>
-    import { VProgressCircular } from 'vuetify/lib'
+    import { VProgressCircular } from 'vuetify/lib';
+    import { VDataTable } from 'vuetify/lib';
 
     export default {
         name: 'CustomersList',
         data() {
             return {
+                customers_table_header: [
+                    {
+                        text: 'Ime komitenta',
+                        align: 'start',
+                        sortable: true,
+                        value: 'name',
+                    },
+                    {
+                        text: 'Broj radnika',
+                        align: 'end',
+                        sortable: false,
+                        value: 'calories',
+                    },
+                ],
                 customers: {},
                 showLoadingIcon: false,
             }
