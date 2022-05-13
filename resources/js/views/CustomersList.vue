@@ -14,7 +14,7 @@
                     <v-data-table
                         :headers="customers_table_header"
                         :items="customers"
-                        :items-per-page="5"
+                        :items-per-page="15"
                         class="elevation-1"
                     ></v-data-table>
                 </template>
