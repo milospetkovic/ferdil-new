@@ -128,44 +128,8 @@
                     value.toString().toLocaleLowerCase().indexOf(search.toString().toLocaleLowerCase()) !== -1
             },
             showCustomer(customer) {
-                let rootComponent = this.$root;
-                let requestToast = this.$toast;
-                let fetchedCustomers = this.customers;
-
-                // Progress bar - show.
-                rootComponent.showProgressBar = true;
-
-                axios.get('sanctum/csrf-cookie');
-
-                // Make a request.
-                axios.get('api/customer/' + customer.id).then(function(res) {
-
-                    fetchedCustomers = res.data;
-
-                }).catch(function(error) {
-
-                    // Get error message.
-                    let errorMessage = '';
-
-                    if (typeof(error.messages) === 'object') {
-                        Object.entries(error.messages).forEach(([key, val]) => {
-                            errorMessage += val + "\n";
-                        });
-                    } else {
-                        errorMessage = error.message;
-                    }
-
-                    // Show toast message.
-                    requestToast.error(errorMessage);
-
-                }).finally(() => {
-
-                    // Progress bar - hide.
-                    rootComponent.showProgressBar = false;
-
-                    this.customers = fetchedCustomers;
-                    this.showLoadingIcon = false;
-                });
+                this.$store.dispatch('setCurrentCustomerName', customer.name);
+                this.$router.push({ name: 'customer.index', params: { id: customer.id, customerName: customer.name }})
             }
         }
     }

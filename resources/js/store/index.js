@@ -17,6 +17,7 @@ export default new Vuex.Store({
         token: null,
         userCustomers: [],
         userWorkers: [],
+        currentCustomerName: ''
     },
     mutations: {
         authenticateUser(state, data) {
@@ -34,6 +35,9 @@ export default new Vuex.Store({
         },
         setUserWorkers(state, data) {
             state.userWorkers = data;
+        },
+        setCurrentCustomerName(state, data) {
+            state.currentCustomerName = data;
         },
     },
     actions: {
@@ -76,6 +80,9 @@ export default new Vuex.Store({
             commit('setUserWorkers', res.data.data);
             console.log('setUserWorkers response: ', res.data.data);
         },
+        setCurrentCustomerName({ commit }, currentCustomerName) {
+            commit('setCurrentCustomerName', currentCustomerName);
+        },
     },
     getters: {
         isAuthenticated(state) {
@@ -102,6 +109,9 @@ export default new Vuex.Store({
                 return item.inactive != 1;
             });
             return activeUserWorkers.length;
+        },
+        getCurrentCustomerName(state) {
+            return state.currentCustomerName;
         },
     },
     modules: {},

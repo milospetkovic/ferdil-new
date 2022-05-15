@@ -1,37 +1,3 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
-
-// require('./bootstrap');
-//
-// window.Vue = require('vue').default;
-
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
-// const app = new Vue({
-//     el: '#app',
-// });
-
-
 require('./bootstrap');
 import Vue from 'vue'
 window.Vue = require('vue').default;
@@ -40,7 +6,46 @@ import router from './router/index';
 import App from './views/App';
 import store from './store';
 
-//Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+function leadingZero(number) {
+    return (number < 10 ? '0' : '') + number;
+}
+
+Vue.prototype.$moment = function(timestamp) {
+    return {
+        format: function(format) {
+            let date = new Date(timestamp);
+            let hours = leadingZero(timestamp < 90000000 ? date.getUTCHours() : date.getHours());
+            let minutes = leadingZero(date.getMinutes());
+            let seconds = leadingZero(date.getSeconds());
+            let fullTime = hours + ':' + minutes + ':' + seconds;
+
+            if (format === 'fullDateForEarlierDates') {
+                let today = new Date().setHours(0, 0, 0);
+                if (timestamp >= today) {
+                    format = 'fullTime';
+                } else {
+                    format = 'fullDate';
+                }
+            }
+
+            if (format === 'fullDate') {
+                let dateOfMonth = leadingZero(date.getDate());
+                let month = leadingZero(date.getMonth() + 1);
+                let year = date.getFullYear();
+                return dateOfMonth + '.' + month + '.' + year;
+            } else if (format === 'fullDateTime') {
+                let dateOfMonth = leadingZero(date.getDate());
+                let month = leadingZero(date.getMonth() + 1);
+                let year = date.getFullYear();
+                return dateOfMonth + '.' + month + '.' + year + ' ' + fullTime;
+            } else if (format === 'HH:mm:ss' || format === 'fullTime') {
+                return fullTime;
+            } else if (format === 'mm:ss') {
+                return minutes + ':' + seconds;
+            }
+        }
+    }
+}
 
 let currentRouteName = null;
 

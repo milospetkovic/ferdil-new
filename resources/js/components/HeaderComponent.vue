@@ -4,7 +4,7 @@
             <div class="container">
                 <div class="navbar-brand">
                     <!-- Branding Image -->
-                    <router-link :class="'navbar-brand glyphicon glyphicon-home'" :to="{name: 'Home'}">
+                    <router-link :class="'navbar-brand glyphicon glyphicon-home'" :to="{name: 'home'}">
                         <img src="images/elitasoft-small.png" alt="Elitasoft" />
                     </router-link>
                 </div>

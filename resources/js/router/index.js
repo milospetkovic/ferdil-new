@@ -6,23 +6,28 @@ Vue.use(VueRouter);
 const routes = [
     {
         path: '/',
-        name: 'Home',
+        name: 'home',
         component: () => import('../views/Home.vue')
     },
     {
         path: '/login',
-        name: 'Login',
+        name: 'login',
         component: () => import('../views/Login.vue'),
     },
     {
         path: '/customer',
-        name: 'Customer',
-        component: () => import('../views/Customer.vue'),
+        name: 'customer.create',
+        component: () => import('../views/customers/CustomerCreate.vue'),
+    },
+    {
+        path: '/customer/:id',
+        name: 'customer.index',
+        component: () => import('../views/customers/CustomerIndex.vue'),
     },
     {
         path: '/customers',
-        name: 'Customers list',
-        component: () => import('../views/CustomersList.vue'),
+        name: 'customers.list',
+        component: () => import('../views/customers/CustomersList.vue'),
     },
 ];
 
