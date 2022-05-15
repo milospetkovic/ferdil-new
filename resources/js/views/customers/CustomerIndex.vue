@@ -26,7 +26,7 @@
                         :items-per-page="15"
                         class="elevation-1"
                         :search="search"
-                        :custom-filter="searchCustomers"
+                        :custom-filter="searchCustomerWorkers"
                         @click:row="showCustomerWorker"
                     >
                         <template v-slot:top>
@@ -35,6 +35,45 @@
                                 label="Pretraga radnika komitenta"
                                 class="mx-4"
                             ></v-text-field>
+                        </template>
+
+                        <template v-slot:item.contract_start="{ item }">
+                            <span>
+                                {{ $moment(item.contract_start).format('fullDate') }}
+                            </span>
+                        </template>
+
+                        <template v-slot:item.contract_end="{ item }">
+                            <span>
+                                {{ $moment(item.contract_end).format('fullDate') }}
+                            </span>
+                        </template>
+
+                        <template v-slot:item.inactive="{ item }">
+                            <v-chip
+                                :color="getWorkerInactiveColor(item.inactive)"
+                                small
+                                dark
+                            >
+                                {{ getWorkerInactiveStatus(item.inactive) }}
+                            </v-chip>
+                        </template>
+
+                        <template v-slot:item.active_until_date="{ item }">
+                            <template v-if="item.active_until_date">
+                                <span>
+                                    {{ $moment(item.active_until_date).format('fullDate') }}
+                                </span>
+                            </template>
+                        </template>
+
+                        <template v-slot:item.send_contract_ended_notification="{ item }">
+                            <v-chip
+                                :color="getWorkerSendContractEndNotificationColor(item.send_contract_ended_notification)"
+                                small
+                            >
+                                {{ getWorkerSendContractEndNotificationStatus(item.send_contract_ended_notification) }}
+                            </v-chip>
                         </template>
 
                     </v-data-table>
@@ -60,22 +99,58 @@
                 search: '',
                 customer_workers_table_header: [
                     {
-                        text: 'Ime',
-                        align: 'start',
-                        sortable: true,
-                        value: 'first_name',
-                    },
-                    {
                         text: 'Prezime',
                         align: 'start',
                         sortable: true,
                         value: 'last_name',
                     },
                     {
-                        text: 'Broj radnika',
-                        align: 'end',
-                        sortable: false,
-                        value: 'customer_workers_count',
+                        text: 'Ime',
+                        align: 'start',
+                        sortable: true,
+                        value: 'first_name',
+                    },
+                    {
+                        text: 'Početak ugovora',
+                        align: 'start',
+                        sortable: true,
+                        value: 'contract_start',
+                    },
+                    {
+                        text: 'Kraj ugovora',
+                        align: 'start',
+                        sortable: true,
+                        value: 'contract_end',
+                    },
+                    {
+                        text: 'JMBG',
+                        align: 'start',
+                        sortable: true,
+                        value: 'jmbg',
+                    },
+                    {
+                        text: 'Status',
+                        align: 'start',
+                        sortable: true,
+                        value: 'inactive',
+                    },
+                    {
+                        text: 'Aktivan do datuma',
+                        align: 'start',
+                        sortable: true,
+                        value: 'active_until_date',
+                    },
+                    {
+                        text: 'Šalji notifikaciju za istek ugovora',
+                        align: 'start',
+                        sortable: true,
+                        value: 'send_contract_ended_notification',
+                    },
+                    {
+                        text: 'Beleška',
+                        align: 'start',
+                        sortable: true,
+                        value: 'description',
                     },
                 ],
                 customerWorkers: {},
@@ -129,10 +204,10 @@
         computed: {
             getCustomerName() {
                 return this.$store.getters.getCurrentCustomerName;
-            }
+            },
         },
         methods: {
-            searchCustomers (value, search, item) {
+            searchCustomerWorkers (value, search, item) {
                 return value != null &&
                     search != null &&
                     typeof value === 'string' &&
@@ -140,6 +215,22 @@
             },
             showCustomerWorker() {
                 alert('show worker full view');
+            },
+            getWorkerInactiveColor(inactive) {
+                if (inactive == 1) return 'red';
+                return 'green';
+            },
+            getWorkerInactiveStatus(inactive) {
+                if (inactive == 1) return 'NEAKTIVAN';
+                return 'Aktivan';
+            },
+            getWorkerSendContractEndNotificationColor(value) {
+                if (value == 1) return 'green';
+                return 'red';
+            },
+            getWorkerSendContractEndNotificationStatus(value) {
+                if (value == 1) return 'DA';
+                return 'NE';
             },
         }
     }
