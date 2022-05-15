@@ -55,11 +55,13 @@ class CustomerController extends Controller
     public function show(CustomerModel $customer, Request $request)
     {
         $customerWorkersSql = DB::table('customers AS c')
+            ->leftJoin('workers as w', 'w.fk_customer', '=', 'c.id')
             ->select('c.id', 'c.name',
                 // Count all workers linked with customer.
                 DB::raw('(SELECT COUNT(*) FROM workers as w1 WHERE w1.fk_customer = c.id) AS customer_count_all_workers'),
                 // Count active workers linked with customer.
-                DB::raw('(SELECT COUNT(*) FROM workers as w2 WHERE w2.fk_customer = c.id AND (w2.inactive != 1 OR w2.inactive IS NULL)) AS customer_count_active_workers')
+                DB::raw('(SELECT COUNT(*) FROM workers as w2 WHERE w2.fk_customer = c.id AND (w2.inactive != 1 OR w2.inactive IS NULL)) AS customer_count_active_workers'),
+                'w.first_name', 'w.last_name'
             )
             ->where('c.fk_company', auth()->user()->company->id)
             ->where('c.id', $customer->id)

@@ -1,7 +1,15 @@
 <template>
     <div class="customer-page">
         <div class="card-header">
-            <strong>~ Komitent:  ~</strong>
+            <template v-if="customerWorkers.length">
+                <div class="position-absolute top-0 end-0 text-muted">
+                    <span class="badge alert-info" title="Broj radnika za komitenta">
+                        {{ customerWorkers[0].customer_count_all_workers }}
+                        <span title="Broj aktivnih radnika">({{ customerWorkers[0].customer_count_active_workers }})</span>
+                    </span>
+                </div>
+            </template>
+            <strong>~ Komitent: {{ getCustomerName }} ~</strong>
         </div>
         <div class="card-body">
             <template v-if="showLoadingIcon">
@@ -11,8 +19,9 @@
             </template>
             <template v-else>
                 <template v-if="customerWorkers.length">
+
                     <v-data-table
-                        :headers="customers_table_header"
+                        :headers="customer_workers_table_header"
                         :items="customerWorkers"
                         :items-per-page="15"
                         class="elevation-1"
@@ -20,13 +29,6 @@
                         :custom-filter="searchCustomers"
                         @click:row="showCustomerWorker"
                     >
-                        <template #item.customer_workers_count="{ item }">
-                            <span class="badge alert-info" title="Broj radnika za komitenta">
-                                {{ item.customer_count_all_workers }}
-                                <span title="Broj aktivnih radnika">({{ item.customer_count_active_workers }})</span>
-                            </span>
-                        </template>
-
                         <template v-slot:top>
                             <v-text-field
                                 v-model="search"
@@ -56,12 +58,18 @@
         data() {
             return {
                 search: '',
-                customers_table_header: [
+                customer_workers_table_header: [
                     {
-                        text: 'Ime komitenta',
+                        text: 'Ime',
                         align: 'start',
                         sortable: true,
-                        value: 'name',
+                        value: 'first_name',
+                    },
+                    {
+                        text: 'Prezime',
+                        align: 'start',
+                        sortable: true,
+                        value: 'last_name',
                     },
                     {
                         text: 'Broj radnika',
@@ -119,7 +127,9 @@
             });
         },
         computed: {
-            //
+            getCustomerName() {
+                return this.$store.getters.getCurrentCustomerName;
+            }
         },
         methods: {
             searchCustomers (value, search, item) {
