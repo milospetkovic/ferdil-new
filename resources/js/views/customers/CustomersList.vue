@@ -128,6 +128,10 @@
                     value.toString().toLocaleLowerCase().indexOf(search.toString().toLocaleLowerCase()) !== -1
             },
             showCustomer(customer) {
+                this.$router.push({ name: 'customer.index', params: { id: customer.id }})
+
+                /*
+
                 let rootComponent = this.$root;
                 let requestToast = this.$toast;
                 let fetchedCustomers = this.customers;
@@ -166,6 +170,7 @@
                     this.customers = fetchedCustomers;
                     this.showLoadingIcon = false;
                 });
+                 */
             }
         }
     }

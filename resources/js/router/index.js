@@ -20,6 +20,11 @@ const routes = [
         component: () => import('../views/customers/CustomerCreate.vue'),
     },
     {
+        path: '/customer/:id',
+        name: 'customer.index',
+        component: () => import('../views/customers/CustomerIndex.vue'),
+    },
+    {
         path: '/customers',
         name: 'customers.list',
         component: () => import('../views/customers/CustomersList.vue'),
