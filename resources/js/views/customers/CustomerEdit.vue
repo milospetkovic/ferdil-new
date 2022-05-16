@@ -4,7 +4,7 @@
             <strong>~ Unos komitenta ~</strong>
         </div>
         <div class="card-body">
-            <form @submit.prevent="createCustomer">
+            <form @submit.prevent="saveCustomer">
                 <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">
                         Ime klijenta
@@ -52,7 +52,7 @@
             }
         },
         methods: {
-            createCustomer() {
+            saveCustomer() {
 
                 let rootComponent = this.$root;
                 let requestToast = this.$toast;

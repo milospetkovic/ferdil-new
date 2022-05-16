@@ -25,6 +25,12 @@ const routes = [
         component: () => import('../views/customers/CustomerIndex.vue'),
     },
     {
+        path: '/customer/:id/edit',
+        name: 'customer.edit',
+        component: () => import('../views/customers/CustomerEdit.vue'),
+        props: true
+    },
+    {
         path: '/customers',
         name: 'customers.list',
         component: () => import('../views/customers/CustomersList.vue'),

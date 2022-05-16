@@ -19,8 +19,14 @@ use App\Http\Controllers\Api\WorkerController;
 // API routes under `auth:sanctum` middleware.
 Route::group(['middleware' => 'auth:sanctum'], function() {
 
-    // Get user's customers.
+    // Get user's customers info.
     Route::get('/user/customers', [ CustomerController::class, 'getUserCustomers' ]);
+
+    // Get user's customers list.
+    Route::get('/user/customers/list', [ CustomerController::class, 'getUserCustomersList' ]);
+
+    // Get customer's workers.
+    Route::get('/customer/{id}/workers', [ CustomerController::class, 'getCustomerWorkers' ])->name('customer.workers');
 
     // Customer resource.
     Route::apiResource('customer','App\Http\Controllers\Api\CustomerController' );

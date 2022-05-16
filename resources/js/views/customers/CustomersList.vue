@@ -88,7 +88,7 @@
             axios.get('sanctum/csrf-cookie');
 
             // Make a request.
-            axios.get('api/customer').then(function(res) {
+            axios.get('api/user/customers/list').then(function(res) {
 
                 fetchedCustomers = res.data;
 

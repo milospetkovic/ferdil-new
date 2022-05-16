@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Worker as WorkerModel;
 use App\Models\Company as CompanyModel;
+use App\Traits\Models\GetTableNameForModel;
 
 /**
  * @property int $id
@@ -26,6 +27,8 @@ use App\Models\Company as CompanyModel;
  */
 class Worker extends Model
 {
+    use GetTableNameForModel;
+
     /**
      * @var array
      */
