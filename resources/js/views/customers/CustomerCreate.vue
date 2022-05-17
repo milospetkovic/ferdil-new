@@ -64,6 +64,7 @@
                 axios.get('sanctum/csrf-cookie');
 
                 let sendData = {
+                    id: -1,
                     name: this.fields.name
                 };
 
