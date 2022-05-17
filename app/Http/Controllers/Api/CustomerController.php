@@ -120,4 +120,18 @@ class CustomerController extends Controller
         return new JsonResponse($data);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(CustomerModel $customer)
+    {
+        CustomerModel::where('id', $customer->id)
+            ->where('fk_company', auth()->user()->company->id)
+            ->delete();
+        return response()->noContent();
+    }
+
 }

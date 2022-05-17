@@ -65,6 +65,7 @@
                     class="pull-right"
                     color="error"
                     small
+                    @click="deleteCustomer(customer.id)"
                 >
                     Obriši komitenta
                     <v-icon
@@ -378,7 +379,48 @@
             },
             goToEditCustomerPage() {
                 this.$router.push({ name: 'customer.edit', params: { id: this.customer.id }})
-            }
+            },
+            deleteCustomer(id) {
+
+                let rootComponent = this.$root;
+                let requestToast = this.$toast;
+
+                // Progress bar - show.
+                rootComponent.showProgressBar = true;
+
+                axios.get('sanctum/csrf-cookie');
+
+                // Make a request.
+                axios.delete('api/customer/' + this.customer.id).then(function(res) {
+
+                    // Show toast message.
+                    requestToast.success(`Uspešno obrisan komitent`);
+
+                }).catch(function(error) {
+
+                    // Get error message.
+                    let errorMessage = '';
+
+                    if (typeof(error.messages) === 'object') {
+                        Object.entries(error.messages).forEach(([key, val]) => {
+                            errorMessage += val + "\n";
+                        });
+                    } else {
+                        errorMessage = error.message;
+                    }
+
+                    // Show toast message.
+                    requestToast.error(errorMessage);
+
+                }).finally(() => {
+
+                    // Progress bar - hide.
+                    rootComponent.showProgressBar = false;
+
+                    // Redirect user to list of customers.
+                    this.$router.push({ name: 'customers.list' });
+                });
+            },
         }
     }
 </script>
