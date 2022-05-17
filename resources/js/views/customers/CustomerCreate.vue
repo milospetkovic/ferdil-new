@@ -7,7 +7,7 @@
             <form @submit.prevent="createCustomer">
                 <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">
-                        Ime klijenta
+                        Ime komitenta
                     </label>
 
                     <div class="col-md-8">
@@ -34,7 +34,7 @@
 <script>
 
     export default {
-        name: 'Customer',
+        name: 'CustomerCreate',
         data() {
             return {
                 fields: {}

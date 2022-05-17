@@ -257,7 +257,6 @@
             this.showLoadingIcon = true;
         },
         mounted() {
-
             let rootComponent = this.$root;
             let requestToast = this.$toast;
             let fetchedCustomerWorkers = this.customerWorkers;
@@ -378,7 +377,7 @@
                 this.$router.push('/');
             },
             goToEditCustomerPage() {
-                this.$router.push({ name: 'customer.edit', params: { id: customer.id }})
+                this.$router.push({ name: 'customer.edit', params: { id: this.customer.id }})
             }
         }
     }

@@ -1,13 +1,13 @@
 <template>
     <div class="customer-page">
         <div class="card-header">
-            <strong>~ Unos komitenta ~</strong>
+            <strong>~ Ažuriranje komitenta ~</strong>
         </div>
         <div class="card-body">
-            <form @submit.prevent="saveCustomer">
+            <form @submit.prevent="updateCustomer">
                 <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">
-                        Ime klijenta
+                        Ime komitenta
                     </label>
 
                     <div class="col-md-8">
@@ -34,14 +34,55 @@
 <script>
 
     export default {
-        name: 'Customer',
+        name: 'CustomerEdit',
         data() {
             return {
-                fields: {}
+                fields: {},
+                customer: {},
             }
         },
         mounted() {
-            //
+            let rootComponent = this.$root;
+            let requestToast = this.$toast;
+            let fetchedCustomer = this.customer;
+
+            // Progress bar - show.
+            rootComponent.showProgressBar = true;
+
+            axios.get('sanctum/csrf-cookie');
+
+            // Fetch a customer.
+            axios.get('api/customer/' + this.$route.params.id).then(function(res) {
+                fetchedCustomer = res.data;
+
+            }).catch(function(error) {
+
+                // Get error message.
+                let errorMessage = '';
+
+                if (typeof(error.messages) === 'object') {
+                    Object.entries(error.messages).forEach(([key, val]) => {
+                        errorMessage += val + "\n";
+                    });
+                } else {
+                    errorMessage = error.message;
+                }
+
+                // Show toast message.
+                requestToast.error(errorMessage);
+
+            }).finally(() => {
+
+                // Progress bar - hide.
+                rootComponent.showProgressBar = false;
+
+                this.customer = fetchedCustomer;
+                this.fields = this.customer;
+
+                console.log('this.fields', this.fields);
+
+                this.showLoadingIcon = false;
+            });
         },
         computed: {
             disabledSave() {
@@ -52,7 +93,7 @@
             }
         },
         methods: {
-            saveCustomer() {
+            updateCustomer() {
 
                 let rootComponent = this.$root;
                 let requestToast = this.$toast;
@@ -70,10 +111,8 @@
                 // Make a request.
                 axios.post('api/customer', sendData).then(function(res) {
 
-                    //console.log('success response', res);
-
                     // Show toast message.
-                    requestToast.success(`Uspešno unešen komitent: ${res.data.data.name}`);
+                    requestToast.success(`Uspešno ažuriran komitent: ${res.data.data.name}`);
 
                     // Clear field.
                     currentModels.name = '';
