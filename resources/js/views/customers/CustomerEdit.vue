@@ -105,21 +105,17 @@
                 axios.get('sanctum/csrf-cookie');
 
                 let sendData = {
+                    id: this.customer.id,
                     name: this.fields.name
                 };
 
                 // Make a request.
-                axios.post('api/customer', sendData).then(function(res) {
+                axios.put('api/customer/' + this.customer.id, sendData).then(function(res) {
 
                     // Show toast message.
                     requestToast.success(`Uspešno ažuriran komitent: ${res.data.data.name}`);
 
-                    // Clear field.
-                    currentModels.name = '';
-
                 }).catch(function(error) {
-
-                    //console.log('error saving customer', error);
 
                     // Get error message.
                     let errorMessage = '';

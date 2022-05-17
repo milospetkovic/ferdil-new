@@ -69,6 +69,19 @@ class CustomerController extends Controller
         return new JsonResponse($customers);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param CustomerRequest $request
+     * @param \App\Models\Customer $customer
+     * @return CustomerResource
+     */
+    public function update(CustomerRequest $request, CustomerModel $customer)
+    {
+        $customer->update($request->validated());
+        return new CustomerResource($customer);
+    }
+
     public function show($customerId)
     {
         $customer = CustomerModel::where('id', $customerId)
