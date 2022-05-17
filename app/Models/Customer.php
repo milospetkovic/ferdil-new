@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Company as CompanyModel;
 use App\Models\Worker as WorkerModel;
+use App\Traits\Models\GetTableNameForModel;
 
 /**
  * @property int $id
@@ -19,14 +20,14 @@ use App\Models\Worker as WorkerModel;
  */
 class Customer extends Model
 {
+    use GetTableNameForModel;
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'customers';
-
-    public static $tableName = 'customers';
 
     /**
      * @var array

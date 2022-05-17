@@ -1,15 +1,82 @@
 <template>
     <div class="customer-page">
         <div class="card-header">
-            <template v-if="customerWorkers.length">
-                <div class="position-absolute top-0 end-0 text-muted">
-                    <span class="badge alert-info" title="Broj radnika za komitenta">
-                        {{ customerWorkers[0].customer_count_all_workers }}
-                        <span title="Broj aktivnih radnika">({{ customerWorkers[0].customer_count_active_workers }})</span>
-                    </span>
-                </div>
-            </template>
+            <div class="position-absolute top-0 end-0 text-muted">
+                <span class="badge alert-info" title="Broj radnika za komitenta">
+                    {{ getCountOfAllCustomerWorkers }}
+                    <span title="Broj aktivnih radnika">({{ getCountOfActiveCustomerWorkers }})</span>
+                </span>
+            </div>
             <strong>~ Komitent: {{ getCustomerName }} ~</strong>
+        </div>
+        <div class="card-header bg-transparent clearfix">
+            <div class="float-start">
+
+                <v-btn
+                    class="pull-left"
+                    color="default"
+                    small
+                    @click="goToHomePage()"
+                >
+                    Početna
+                    <v-icon
+                        dark
+                        right
+                    >
+                        mdi-home-outline
+                    </v-icon>
+                </v-btn>
+
+                <v-btn
+                    class="pull-left"
+                    color="warning"
+                    small
+                    @click="goToEditCustomerPage()"
+                >
+                    Ažuriraj komitenta
+                    <v-icon
+                        dark
+                        right
+                    >
+                        mdi-pencil-box-outline
+                    </v-icon>
+                </v-btn>
+
+                <v-btn
+                    class="pull-left"
+                    color="accent"
+                    small
+                >
+                    Unesi radnika
+                    <v-icon
+                        dark
+                        right
+                    >
+                        mdi-account-plus-outline
+                    </v-icon>
+                </v-btn>
+
+            </div>
+
+            <div class="mx-2"></div>
+
+            <div class="float-end">
+                <v-btn
+                    class="pull-right"
+                    color="error"
+                    small
+                    @click="deleteCustomer(customer.id)"
+                >
+                    Obriši komitenta
+                    <v-icon
+                        dark
+                        right
+                    >
+                        mdi-trash-can-outline
+                    </v-icon>
+                </v-btn>
+            </div>
+
         </div>
         <div class="card-body">
             <template v-if="showLoadingIcon">
@@ -19,15 +86,21 @@
             </template>
             <template v-else>
                 <template v-if="customerWorkers.length">
-
                     <v-data-table
                         :headers="customer_workers_table_header"
-                        :items="customerWorkers"
-                        :items-per-page="15"
+                        :items="getCustomerWorkers"
+                        :items-per-page="this.$store.getters.getNumberOfPaginationItems"
                         class="elevation-1"
                         :search="search"
                         :custom-filter="searchCustomerWorkers"
                         @click:row="showCustomerWorker"
+                        item-key="worker_id"
+                        :options.sync="options"
+                        :footer-props="{
+                           itemsPerPageText: 'Redova po strani',
+                           itemsPerPageAllText: 'Sve',
+                           itemsPerPageOptions: this.$store.getters.getDefaultPaginationOptions,
+                        }"
                     >
                         <template v-slot:top>
                             <v-text-field
@@ -35,6 +108,15 @@
                                 label="Pretraga radnika komitenta"
                                 class="mx-4"
                             ></v-text-field>
+
+                            <v-checkbox
+                                v-if="getCountOfUnactiveCustomerWorkers > 0"
+                                dense
+                                v-model="showUnactiveWorkers"
+                                :label="'Prikaži i neaktivne radnike'"
+                            >
+                            </v-checkbox>
+
                         </template>
 
                         <template v-slot:item.contract_start="{ item }">
@@ -91,12 +173,19 @@
 <script>
     import { VProgressCircular } from 'vuetify/lib';
     import { VDataTable } from 'vuetify/lib';
+    import {
+        mdiAccount,
+        mdiPencil,
+        mdiShareVariant,
+        mdiDelete,
+    } from '@mdi/js';
 
     export default {
         name: 'CustomerIndex',
         data() {
             return {
                 search: '',
+                showUnactiveWorkers: false,
                 customer_workers_table_header: [
                     {
                         text: 'Prezime',
@@ -155,16 +244,24 @@
                 ],
                 customerWorkers: {},
                 showLoadingIcon: false,
+                options: {},
+                icons: {
+                    mdiAccount,
+                    mdiPencil,
+                    mdiShareVariant,
+                    mdiDelete,
+                },
+                customer: {},
             }
         },
         beforeMount() {
             this.showLoadingIcon = true;
         },
         mounted() {
-
             let rootComponent = this.$root;
             let requestToast = this.$toast;
             let fetchedCustomerWorkers = this.customerWorkers;
+            let fetchedCustomer = this.customer;
 
             // Progress bar - show.
             rootComponent.showProgressBar = true;
@@ -172,9 +269,10 @@
             axios.get('sanctum/csrf-cookie');
 
             // Make a request.
-            axios.get('api/customer/' + this.$route.params.id).then(function(res) {
+            axios.get('api/customer/' + this.$route.params.id + '/workers').then(function(res) {
 
-                fetchedCustomerWorkers = res.data;
+                fetchedCustomerWorkers = res.data.customer_workers;
+                fetchedCustomer = res.data.customer;
 
             }).catch(function(error) {
 
@@ -197,13 +295,44 @@
                 // Progress bar - hide.
                 rootComponent.showProgressBar = false;
 
+                this.customer = fetchedCustomer;
                 this.customerWorkers = fetchedCustomerWorkers;
+
                 this.showLoadingIcon = false;
             });
         },
+        watch: {
+            options: {
+                handler () {
+                    if (this.options.itemsPerPage != this.$store.getters.getNumberOfPaginationItems) {
+                        this.$store.dispatch('setNumberOfPaginationItems', this.options.itemsPerPage);
+                    }
+                },
+                deep: true,
+            },
+        },
         computed: {
             getCustomerName() {
-                return this.$store.getters.getCurrentCustomerName;
+                return this.customer.name;
+            },
+            getCustomerWorkers() {
+                if (!this.showUnactiveWorkers) {
+                    // Get active workers only.
+                    return this.customerWorkers.filter(worker => {
+                        return (worker.inactive != 1) }
+                     );
+                }
+                // Get all workers.
+                return this.customerWorkers;
+            },
+            getCountOfAllCustomerWorkers() {
+                return this.countOfAllCustomerWorkers();
+            },
+            getCountOfActiveCustomerWorkers() {
+                return this.countOfActiveCustomerWorkers();
+            },
+            getCountOfUnactiveCustomerWorkers() {
+                return this.getCountOfAllCustomerWorkers - this.getCountOfActiveCustomerWorkers;
             },
         },
         methods: {
@@ -231,6 +360,66 @@
             getWorkerSendContractEndNotificationStatus(value) {
                 if (value == 1) return 'DA';
                 return 'NE';
+            },
+            countOfAllCustomerWorkers() {
+                if (this.customerWorkers.length) {
+                    return this.customerWorkers[0].customer_count_all_workers;
+                }
+                return 0;
+            },
+            countOfActiveCustomerWorkers() {
+                if (this.customerWorkers.length) {
+                    return this.customerWorkers[0].customer_count_active_workers;
+                }
+                return 0;
+            },
+            goToHomePage() {
+                // Redirect user to home page.
+                this.$router.push('/');
+            },
+            goToEditCustomerPage() {
+                this.$router.push({ name: 'customer.edit', params: { id: this.customer.id }})
+            },
+            deleteCustomer(id) {
+
+                let rootComponent = this.$root;
+                let requestToast = this.$toast;
+
+                // Progress bar - show.
+                rootComponent.showProgressBar = true;
+
+                axios.get('sanctum/csrf-cookie');
+
+                // Make a request.
+                axios.delete('api/customer/' + this.customer.id).then(function(res) {
+
+                    // Show toast message.
+                    requestToast.success(`Uspešno obrisan komitent`);
+
+                }).catch(function(error) {
+
+                    // Get error message.
+                    let errorMessage = '';
+
+                    if (typeof(error.messages) === 'object') {
+                        Object.entries(error.messages).forEach(([key, val]) => {
+                            errorMessage += val + "\n";
+                        });
+                    } else {
+                        errorMessage = error.message;
+                    }
+
+                    // Show toast message.
+                    requestToast.error(errorMessage);
+
+                }).finally(() => {
+
+                    // Progress bar - hide.
+                    rootComponent.showProgressBar = false;
+
+                    // Redirect user to list of customers.
+                    this.$router.push({ name: 'customers.list' });
+                });
             },
         }
     }

@@ -17,7 +17,8 @@ export default new Vuex.Store({
         token: null,
         userCustomers: [],
         userWorkers: [],
-        currentCustomerName: ''
+        defaultPaginationOptions: [5,10,15,20,-1],
+        numberOfPaginationItems: 10,
     },
     mutations: {
         authenticateUser(state, data) {
@@ -36,8 +37,8 @@ export default new Vuex.Store({
         setUserWorkers(state, data) {
             state.userWorkers = data;
         },
-        setCurrentCustomerName(state, data) {
-            state.currentCustomerName = data;
+        setNumberOfPaginationItems(state, data) {
+            state.numberOfPaginationItems = data;
         },
     },
     actions: {
@@ -80,8 +81,8 @@ export default new Vuex.Store({
             commit('setUserWorkers', res.data.data);
             console.log('setUserWorkers response: ', res.data.data);
         },
-        setCurrentCustomerName({ commit }, currentCustomerName) {
-            commit('setCurrentCustomerName', currentCustomerName);
+        setNumberOfPaginationItems({ commit }, numberOfPaginationItems) {
+            commit('setNumberOfPaginationItems', numberOfPaginationItems);
         },
     },
     getters: {
@@ -110,8 +111,11 @@ export default new Vuex.Store({
             });
             return activeUserWorkers.length;
         },
-        getCurrentCustomerName(state) {
-            return state.currentCustomerName;
+        getDefaultPaginationOptions(state) {
+            return state.defaultPaginationOptions;
+        },
+        getNumberOfPaginationItems(state) {
+            return state.numberOfPaginationItems;
         },
     },
     modules: {},
