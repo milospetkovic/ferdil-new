@@ -46,6 +46,7 @@
                     class="pull-left"
                     color="accent"
                     small
+                    @click="goToCreateWorkerPage()"
                 >
                     Unesi radnika
                     <v-icon
@@ -420,6 +421,9 @@
                     // Redirect user to list of customers.
                     this.$router.push({ name: 'customers.list' });
                 });
+            },
+            goToCreateWorkerPage() {
+                this.$router.push({ name: 'worker.create', params: { id: this.customer.id }})
             },
         }
     }

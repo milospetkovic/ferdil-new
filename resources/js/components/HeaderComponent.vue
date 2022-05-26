@@ -22,7 +22,7 @@
 
                             <template v-if="!this.$store.getters.isAuthenticated">
                                 <li>
-                                    <router-link to="/login" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">Login</router-link>
+                                    <router-link to="/login" :data-bs-toggle="'offcanvas'" :data-bs-target="'#offcanvasNavbar'" aria-controls="offcanvasNavbar">Login</router-link>
                                 </li>
 <!--                                <li><a href="/register">Register</a></li>-->
                             </template>
