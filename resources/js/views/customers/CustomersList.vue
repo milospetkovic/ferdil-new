@@ -128,7 +128,6 @@
                     value.toString().toLocaleLowerCase().indexOf(search.toString().toLocaleLowerCase()) !== -1
             },
             showCustomer(customer) {
-                this.$store.dispatch('setCurrentCustomerName', customer.name);
                 this.$router.push({ name: 'customer.index', params: { id: customer.id, customerName: customer.name }})
             }
         }

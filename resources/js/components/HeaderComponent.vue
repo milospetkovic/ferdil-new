@@ -69,12 +69,12 @@ export default {
             this.$store.dispatch('logout').then(res => {
 
                 // Show toast message.
-                this.$toast.success('You are successfully logged out');
+                this.$toast.success('Uspešno ste se izlogovali iz aplikacije.');
 
             }).catch(error => {
 
                 // Show toast message.
-                this.$toast.error('Something is wrong during logout');
+                this.$toast.error('Greška tokom izlogovanja sa aplikacije.');
 
             }).finally(() => {
 
