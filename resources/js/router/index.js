@@ -41,6 +41,18 @@ const routes = [
         component: () => import('../views/workers/WorkerCreate.vue'),
         props: true,
     },
+    {
+        path: '/worker/:id/edit',
+        name: 'worker.edit',
+        component: () => import('../views/workers/WorkerViewAndEdit'),
+        props: true,
+    },
+    {
+        path: '/worker/:id',
+        name: 'worker.show',
+        component: () => import('../views/workers/WorkerViewAndEdit'),
+        props: true,
+    },
 ];
 
 const router = new VueRouter({
