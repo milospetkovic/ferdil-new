@@ -8,7 +8,8 @@
                 <div class="form-group row">
 
                     <v-text-field
-                        :class="'mt-1'"
+                        v-model="first_name"
+                        :class="'mt-2'"
                         label="Ime radnika"
                         outlined
                         dense
@@ -16,6 +17,7 @@
                     </v-text-field>
 
                     <v-text-field
+                        v-model="last_name"
                         label="Prezime radnika"
                         outlined
                         dense
@@ -115,6 +117,7 @@
                     </v-menu>
 
                     <v-text-field
+                        v-model="jmbg"
                         label="JMBG"
                         outlined
                         dense
@@ -173,6 +176,7 @@
                     ></v-checkbox>
 
                     <v-textarea
+                        v-model="description"
                         name="description"
                         label="Beleška"
                         hint="Kratka beleška u vezi radnika"
@@ -211,12 +215,17 @@
         name: 'WorkerCreate',
         data() {
             return {
-                fields: {},
-                send_contract_ended_notification: '',
+                first_name: '',
+                last_name: '',
                 contract_startMenu: false,
                 contract_start: '',
+                contract_endMenu: false,
                 contract_end: '',
+                jmbg: '',
+                active_until_dateMenu: false,
                 active_until_date: '',
+                send_contract_ended_notification: '',
+                description: ''
             }
         },
         mounted() {
@@ -224,10 +233,11 @@
         },
         computed: {
             disabledSave() {
-                if (this.fields.name && this.fields.name.length > 0) {
-                    return false;
-                }
-                return true;
+                return false;
+                // if (this.fields.name && this.fields.name.length > 0) {
+                //     return false;
+                // }
+                // return true;
             },
             computedContractStart() {
                 return this.contract_start ? moment(this.contract_start).format('DD.MM.YYYY') : '';
@@ -235,13 +245,16 @@
             computedContractEnd() {
                 return this.contract_end ? moment(this.contract_end).format('DD.MM.YYYY') : '';
             },
+            computedActiveUntilDate() {
+                return this.active_until_date ? moment(this.active_until_date).format('DD.MM.YYYY') : '';
+            },
         },
         methods: {
             createWorker() {
 
                 let rootComponent = this.$root;
                 let requestToast = this.$toast;
-                let currentModels = this.fields;
+                //let currentModels = this.fields;
 
                 // Progress bar - show.
                 rootComponent.showProgressBar = true;
@@ -249,20 +262,25 @@
                 axios.get('sanctum/csrf-cookie');
 
                 let sendData = {
-                    id: -1,
-                    name: this.fields.name
+                    first_name: this.first_name,
+                    last_name: this.last_name,
+                    contract_start: this.contract_start,
+                    contract_end: this.contract_end,
+                    active_until_date: this.active_until_date,
+                    send_contract_ended_notification: this.send_contract_ended_notification,
+                    description: this.description,
                 };
 
-                // Make a request.
-                axios.post('api/customer', sendData).then(function(res) {
+                console.log('data: ', sendData);
 
-                    //console.log('success response', res);
+                // Make a request.
+                axios.post('api/worker', sendData).then(function(res) {
 
                     // Show toast message.
-                    requestToast.success(`Uspešno unešen komitent: ${res.data.data.name}`);
+                    requestToast.success(`Uspešno unešen radnik: ${res.data.data.name}`);
 
                     // Clear field.
-                    currentModels.name = '';
+                    //currentModels.name = '';
 
                 }).catch(function(error) {
 
