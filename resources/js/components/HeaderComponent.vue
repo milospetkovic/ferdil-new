@@ -22,7 +22,7 @@
 
                             <template v-if="!this.$store.getters.isAuthenticated">
                                 <li>
-                                    <router-link to="/login" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">Login</router-link>
+                                    <router-link to="/login" :data-bs-toggle="'offcanvas'" :data-bs-target="'#offcanvasNavbar'" aria-controls="offcanvasNavbar">Login</router-link>
                                 </li>
 <!--                                <li><a href="/register">Register</a></li>-->
                             </template>
@@ -69,12 +69,12 @@ export default {
             this.$store.dispatch('logout').then(res => {
 
                 // Show toast message.
-                this.$toast.success('You are successfully logged out');
+                this.$toast.success('Uspešno ste se izlogovali iz aplikacije.');
 
             }).catch(error => {
 
                 // Show toast message.
-                this.$toast.error('Something is wrong during logout');
+                this.$toast.error('Greška tokom izlogovanja sa aplikacije.');
 
             }).finally(() => {
 

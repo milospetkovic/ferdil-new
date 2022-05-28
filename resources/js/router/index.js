@@ -35,6 +35,12 @@ const routes = [
         name: 'customers.list',
         component: () => import('../views/customers/CustomersList.vue'),
     },
+    {
+        path: '/worker',
+        name: 'worker.create',
+        component: () => import('../views/workers/WorkerCreate.vue'),
+        props: true,
+    },
 ];
 
 const router = new VueRouter({
