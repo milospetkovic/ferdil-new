@@ -343,8 +343,8 @@
                     typeof value === 'string' &&
                     value.toString().toLocaleLowerCase().indexOf(search.toString().toLocaleLowerCase()) !== -1
             },
-            showCustomerWorker() {
-                alert('show worker full view');
+            showCustomerWorker(row) {
+                this.$router.push({ name: 'worker.show', params: { id: row.worker_id }})
             },
             getWorkerInactiveColor(inactive) {
                 if (inactive == 1) return 'red';
