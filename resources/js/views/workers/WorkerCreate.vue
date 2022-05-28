@@ -183,6 +183,7 @@
                     <v-checkbox
                         v-model="send_contract_ended_notification"
                         :label="`Šalji notifikaciju za istek ugovora: ${send_contract_ended_notification.toString()}`"
+
                     ></v-checkbox>
 
                     <v-textarea
@@ -231,7 +232,6 @@
                     id: this.customer_id,
                     name: this.customer_name
                 },
-                fk_customer: 0,
                 first_name: '',
                 last_name: '',
                 contract_startMenu: false,
@@ -241,7 +241,7 @@
                 jmbg: '',
                 active_until_dateMenu: false,
                 active_until_date: '',
-                send_contract_ended_notification: '',
+                send_contract_ended_notification: true,
                 description: ''
             }
         },
@@ -313,14 +313,14 @@
                     active_until_date: this.active_until_date,
                     send_contract_ended_notification: this.send_contract_ended_notification,
                     description: this.description,
-                    fk_customer: (this.customer_id) ? this.customer_id : this.fk_customer,
+                    fk_customer: (this.customer_id) ? this.customer_id : this.customersSelect,
                 };
             },
             createWorker() {
 
                 let rootComponent = this.$root;
                 let requestToast = this.$toast;
-                //let currentModels = this.fields;
+                let successAction = false;
 
                 // Progress bar - show.
                 rootComponent.showProgressBar = true;
@@ -337,8 +337,7 @@
                     // Show toast message.
                     requestToast.success(`Uspešno unešen radnik: ${res.data.data.first_name} ${res.data.data.last_name}`);
 
-                    // Clear field.
-                    //currentModels.name = '';
+                    successAction = true;
 
                 }).catch(function(error) {
 
@@ -362,11 +361,25 @@
 
                     // Progress bar - hide.
                     rootComponent.showProgressBar = false;
+
+                    if (successAction) {
+                        // Clear fields.
+                        this.clearFormFields();
+                    }
                 });
             },
             cancel() {
                 // Redirect user to home page.
                 this.$router.push('/');
+            },
+            clearFormFields() {
+                this.first_name = '';
+                this.last_name = '';
+                this.contract_start = '';
+                this.contract_end = '';
+                this.jmbg = '';
+                this.active_until_date = '';
+                this.description = ''
             },
         }
     }
