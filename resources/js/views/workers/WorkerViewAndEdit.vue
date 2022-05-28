@@ -23,6 +23,7 @@
                         item-value="id"
                         outlined
                         dense
+                        disabled="lockFields"
                     ></v-select>
 
                     <v-text-field
@@ -30,6 +31,7 @@
                         label="Ime radnika"
                         outlined
                         dense
+                        disabled="lockFields"
                     >
                     </v-text-field>
 
@@ -38,6 +40,7 @@
                         label="Prezime radnika"
                         outlined
                         dense
+                        disabled="lockFields"
                     >
                     </v-text-field>
 
@@ -61,6 +64,7 @@
                                 @click:clear="contract_start = null"
                                 outlined
                                 dense
+                                disabled="lockFields"
                             ></v-text-field>
                         </template>
                         <v-date-picker
@@ -107,6 +111,7 @@
                                 @click:clear="contract_end = null"
                                 outlined
                                 dense
+                                disabled="lockFields"
                             ></v-text-field>
                         </template>
                         <v-date-picker
@@ -138,6 +143,7 @@
                         label="JMBG"
                         outlined
                         dense
+                        disabled="lockFields"
                     >
                     </v-text-field>
 
@@ -161,6 +167,7 @@
                                 @click:clear="active_until_date = null"
                                 outlined
                                 dense
+                                disabled="lockFields"
                             ></v-text-field>
                         </template>
                         <v-date-picker
@@ -190,7 +197,7 @@
                     <v-checkbox
                         v-model="send_contract_ended_notification"
                         :label="`Šalji notifikaciju za istek ugovora: ${send_contract_ended_notification.toString()}`"
-
+                        disabled="lockFields"
                     ></v-checkbox>
 
                     <v-textarea
@@ -200,6 +207,7 @@
                         hint="Kratka beleška u vezi radnika"
                         outlined
                         dense
+                        disabled="lockFields"
                     >
                     </v-textarea>
 
@@ -265,12 +273,16 @@
 
             axios.get('sanctum/csrf-cookie');
 
-            // Make a request.
-            axios.get('api/worker/' +  this.$route.params.id).then(function(res) {
+            const requestGetWorker = axios.get('api/worker/' +  this.$route.params.id);
+            const requestGetCustomers = axios.get('api/user/customers');
 
-                fetchedWorker = res.data.data;
+            // Make a requests.
+            axios.all([requestGetWorker, requestGetCustomers]).then(axios.spread((...responses) => {
 
-            }).catch(function(error) {
+                fetchedWorker = responses[0].data;
+                fetchedCustomers = responses[1].data.data;
+            }))
+            .catch(function(error) {
 
                 // Get error message.
                 let errorMessage = '';
@@ -293,16 +305,13 @@
 
                 this.customers = fetchedCustomers;
                 this.worker = fetchedWorker;
+                this.populateData();
                 this.showLoadingIcon = false;
             });
         },
         computed: {
             disabledSave() {
                 return false;
-                // if (this.fields.name && this.fields.name.length > 0) {
-                //     return false;
-                // }
-                // return true;
             },
             computedContractStart() {
                 return this.contract_start ? moment(this.contract_start).format('DD.MM.YYYY') : '';
@@ -313,6 +322,12 @@
             computedActiveUntilDate() {
                 return this.active_until_date ? moment(this.active_until_date).format('DD.MM.YYYY') : '';
             },
+            lockFields() {
+                if (this.editWorker) {
+                    return false;
+                }
+                return true;
+            }
         },
         methods: {
             getDataForSave() {
@@ -352,8 +367,6 @@
 
                 }).catch(function(error) {
 
-                    //console.log('error saving customer', error);
-
                     // Get error message.
                     let errorMessage = '';
 
@@ -392,6 +405,16 @@
                 this.active_until_date = '';
                 this.description = ''
             },
+            populateData() {
+                this.customersSelect = this.worker.fk_customer;
+                this.first_name = this.worker.first_name;
+                this.last_name = this.worker.last_name;
+                this.contract_start = this.worker.contract_start;
+                this.contract_end = this.worker.contract_end;
+                this.jmbg = this.worker.jmbg;
+                this.active_until_date = this.worker.active_until_date;
+                this.description = this.worker.description;
+            }
         }
     }
 </script>
