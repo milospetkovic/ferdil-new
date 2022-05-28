@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\WorkerRequest;
 use App\Http\Resources\WorkerResource;
 use App\Models\Worker as WorkerModel;
 use Illuminate\Http\Request;
@@ -21,10 +22,11 @@ class WorkerController extends Controller
         return WorkerResource::collection(WorkerModel::where('fk_company', auth()->user()->company->id)->get());
     }
 
-    public function store(WorkerResource $request)
+    public function store(WorkerRequest $request)
     {
         $data = $request->all();
         $data['fk_company'] = auth()->user()->company->id;
+        $data['fk_customer'] = 116;
         $worker = WorkerModel::create($data);
         return new WorkerResource($worker);
     }
