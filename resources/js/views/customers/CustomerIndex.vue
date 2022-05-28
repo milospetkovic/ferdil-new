@@ -423,7 +423,12 @@
                 });
             },
             goToCreateWorkerPage() {
-                this.$router.push({ name: 'worker.create', params: { customer_id: this.customer.id }})
+                this.$router.push({ name: 'worker.create',
+                    params: {
+                        customer_id: this.customer.id,
+                        customer_name: this.customer.name,
+                    }
+                })
             },
         }
     }

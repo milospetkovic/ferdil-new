@@ -7,18 +7,19 @@
             <form @submit.prevent="createWorker">
                 <div class="form-group row">
 
-                    <template v-if="customer_id">
-                        IMA customer id
-                    </template>
-                    <template v-else>
-
-                        Ovde select box
-
-                    </template>
+                    <v-select
+                        v-model="customersSelect"
+                        :class="'mt-2'"
+                        :items="customers"
+                        label="Radnik za komitenta"
+                        item-text="name"
+                        item-value="id"
+                        outlined
+                        dense
+                    ></v-select>
 
                     <v-text-field
                         v-model="first_name"
-                        :class="'mt-2'"
                         label="Ime radnika"
                         outlined
                         dense
@@ -222,9 +223,14 @@
 
     export default {
         name: 'WorkerCreate',
-        props: ['customer_id'],
+        props: ['customer_id', 'customer_name'],
         data() {
             return {
+                customers: [],
+                customersSelect: {
+                    id: this.customer_id,
+                    name: this.customer_name
+                },
                 fk_customer: 0,
                 first_name: '',
                 last_name: '',
@@ -240,7 +246,44 @@
             }
         },
         mounted() {
-            //
+            let rootComponent = this.$root;
+            let requestToast = this.$toast;
+            let fetchedCustomers = this.customers;
+
+            // Progress bar - show.
+            rootComponent.showProgressBar = true;
+
+            axios.get('sanctum/csrf-cookie');
+
+            // Make a request.
+            axios.get('api/user/customers').then(function(res) {
+
+                fetchedCustomers = res.data.data;
+
+            }).catch(function(error) {
+
+                // Get error message.
+                let errorMessage = '';
+
+                if (typeof(error.messages) === 'object') {
+                    Object.entries(error.messages).forEach(([key, val]) => {
+                        errorMessage += val + "\n";
+                    });
+                } else {
+                    errorMessage = error.message;
+                }
+
+                // Show toast message.
+                requestToast.error(errorMessage);
+
+            }).finally(() => {
+
+                // Progress bar - hide.
+                rootComponent.showProgressBar = false;
+
+                this.customers = fetchedCustomers;
+                this.showLoadingIcon = false;
+            });
         },
         computed: {
             disabledSave() {

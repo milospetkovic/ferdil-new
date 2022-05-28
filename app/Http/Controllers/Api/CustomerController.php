@@ -24,7 +24,9 @@ class CustomerController extends Controller
      */
     public function getUserCustomers()
     {
-        return CustomerResource::collection(CustomerModel::where('fk_company', auth()->user()->company->id)->get());
+        return CustomerResource::collection(CustomerModel::where('fk_company', auth()->user()->company->id)
+            ->orderBY('name', 'asc')
+            ->get());
     }
 
     public function store(CustomerRequest $request)
