@@ -6,25 +6,193 @@
         <div class="card-body">
             <form @submit.prevent="createWorker">
                 <div class="form-group row">
-                    <label for="name" class="col-md-4 col-form-label text-md-right">
-                        Ime komitenta
-                    </label>
 
-                    <div class="col-md-8">
-                        <input id="name" type="text" class="form-control" name="name" v-model="fields.name" autofocus>
-                    </div>
+                    <v-text-field
+                        :class="'mt-1'"
+                        label="Ime radnika"
+                        outlined
+                        dense
+                    >
+                    </v-text-field>
+
+                    <v-text-field
+                        label="Prezime radnika"
+                        outlined
+                        dense
+                    >
+                    </v-text-field>
+
+                    <v-menu
+                        ref="contract_startMenu"
+                        v-model="contract_startMenu"
+                        :close-on-content-click="false"
+                        :return-value.sync="contract_start"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                :value="computedContractStart"
+                                label="Datum početka ugovora"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                                clearable
+                                @click:clear="contract_start = null"
+                                outlined
+                                dense
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            v-model="contract_start"
+                            first-day-of-week="1"
+                            no-title
+                            scrollable
+                        >
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="contract_startMenu = false"
+                            >
+                                Odustani
+                            </v-btn>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="$refs.contract_startMenu.save(contract_start)"
+                            >
+                                OK
+                            </v-btn>
+                        </v-date-picker>
+                    </v-menu>
+
+                    <v-menu
+                        ref="contract_endMenu"
+                        v-model="contract_endMenu"
+                        :close-on-content-click="false"
+                        :return-value.sync="contract_end"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                :value="computedContractEnd"
+                                label="Datum kraja ugovora"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                                clearable
+                                @click:clear="contract_end = null"
+                                outlined
+                                dense
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            v-model="contract_end"
+                            first-day-of-week="1"
+                            no-title
+                            scrollable
+                        >
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="contract_endMenu = false"
+                            >
+                                Odustani
+                            </v-btn>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="$refs.contract_endMenu.save(contract_end)"
+                            >
+                                OK
+                            </v-btn>
+                        </v-date-picker>
+                    </v-menu>
+
+                    <v-text-field
+                        label="JMBG"
+                        outlined
+                        dense
+                    >
+                    </v-text-field>
+
+                    <v-menu
+                        ref="active_until_dateMenu"
+                        v-model="active_until_dateMenu"
+                        :close-on-content-click="false"
+                        :return-value.sync="active_until_date"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="auto"
+                    >
+                        <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                                :value="computedActiveUntilDate"
+                                label="Aktivan do datuma"
+                                readonly
+                                v-bind="attrs"
+                                v-on="on"
+                                clearable
+                                @click:clear="active_until_date = null"
+                                outlined
+                                dense
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            v-model="active_until_date"
+                            first-day-of-week="1"
+                            no-title
+                            scrollable
+                        >
+                            <v-spacer></v-spacer>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="active_until_dateMenu = false"
+                            >
+                                Odustani
+                            </v-btn>
+                            <v-btn
+                                text
+                                color="primary"
+                                @click="$refs.active_until_dateMenu.save(active_until_date)"
+                            >
+                                OK
+                            </v-btn>
+                        </v-date-picker>
+                    </v-menu>
+
+                    <v-checkbox
+                        v-model="send_contract_ended_notification"
+                        :label="`Šalji notifikaciju za istek ugovora: ${send_contract_ended_notification.toString()}`"
+                    ></v-checkbox>
+
+                    <v-textarea
+                        name="description"
+                        label="Beleška"
+                        hint="Kratka beleška u vezi radnika"
+                        outlined
+                        dense
+                    >
+                    </v-textarea>
+
                 </div>
 
                 <div class="form-group row mb-0">
-                    <div class="col-md-8 offset-md-4 text-left">
-                        <button type="submit" :disabled="disabledSave" class="btn btn-success">
-                            Sačuvaj
-                        </button>
 
-                        <button class="btn btn-outline-secondary float-end" @click="cancel">
-                            Prekini
-                        </button>
-                    </div>
+                    <button type="submit" :disabled="disabledSave" class="btn btn-success">
+                        Sačuvaj
+                    </button>
+
+                    <button class="btn btn-outline-secondary float-end" @click="cancel">
+                        Prekini
+                    </button>
+
                 </div>
             </form>
         </div>
@@ -32,11 +200,23 @@
 </template>
 
 <script>
+    import moment from 'moment';
+    import {
+        VTextField,
+        VTextarea,
+        VDatePicker,
+    } from 'vuetify/lib';
+
     export default {
         name: 'WorkerCreate',
         data() {
             return {
-                fields: {}
+                fields: {},
+                send_contract_ended_notification: '',
+                contract_startMenu: false,
+                contract_start: '',
+                contract_end: '',
+                active_until_date: '',
             }
         },
         mounted() {
@@ -48,10 +228,16 @@
                     return false;
                 }
                 return true;
-            }
+            },
+            computedContractStart() {
+                return this.contract_start ? moment(this.contract_start).format('DD.MM.YYYY') : '';
+            },
+            computedContractEnd() {
+                return this.contract_end ? moment(this.contract_end).format('DD.MM.YYYY') : '';
+            },
         },
         methods: {
-            createCustomer() {
+            createWorker() {
 
                 let rootComponent = this.$root;
                 let requestToast = this.$toast;
