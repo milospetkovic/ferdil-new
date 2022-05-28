@@ -250,13 +250,15 @@
                 active_until_dateMenu: false,
                 active_until_date: '',
                 send_contract_ended_notification: true,
-                description: ''
+                description: '',
+                worker: {}
             }
         },
         mounted() {
             let rootComponent = this.$root;
             let requestToast = this.$toast;
             let fetchedCustomers = this.customers;
+            let fetchedWorker = this.worker;
 
             // Progress bar - show.
             rootComponent.showProgressBar = true;
@@ -264,9 +266,9 @@
             axios.get('sanctum/csrf-cookie');
 
             // Make a request.
-            axios.get('api/user/customers').then(function(res) {
+            axios.get('api/worker/' +  this.$route.params.id).then(function(res) {
 
-                fetchedCustomers = res.data.data;
+                fetchedWorker = res.data.data;
 
             }).catch(function(error) {
 
@@ -290,6 +292,7 @@
                 rootComponent.showProgressBar = false;
 
                 this.customers = fetchedCustomers;
+                this.worker = fetchedWorker;
                 this.showLoadingIcon = false;
             });
         },

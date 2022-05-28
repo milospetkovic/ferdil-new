@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\WorkerRequest;
 use App\Http\Resources\WorkerResource;
 use App\Models\Worker as WorkerModel;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class WorkerController extends Controller
@@ -28,6 +29,14 @@ class WorkerController extends Controller
         $data['fk_company'] = auth()->user()->company->id;
         $worker = WorkerModel::create($data);
         return new WorkerResource($worker);
+    }
+
+    public function show($workerId)
+    {
+        $worker = WorkerModel::where('id', $workerId)
+            ->where('fk_company', auth()->user()->company->id)
+            ->firstOrFail();
+        return new JsonResponse($worker);
     }
 
 }
