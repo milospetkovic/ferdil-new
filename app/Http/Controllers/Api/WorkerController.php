@@ -26,7 +26,6 @@ class WorkerController extends Controller
     {
         $data = $request->all();
         $data['fk_company'] = auth()->user()->company->id;
-        $data['fk_customer'] = 116;
         $worker = WorkerModel::create($data);
         return new WorkerResource($worker);
     }

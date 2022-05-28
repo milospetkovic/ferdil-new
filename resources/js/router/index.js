@@ -39,6 +39,7 @@ const routes = [
         path: '/worker',
         name: 'worker.create',
         component: () => import('../views/workers/WorkerCreate.vue'),
+        props: true,
     },
 ];
 

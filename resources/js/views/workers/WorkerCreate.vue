@@ -7,6 +7,15 @@
             <form @submit.prevent="createWorker">
                 <div class="form-group row">
 
+                    <template v-if="customer_id">
+                        IMA customer id
+                    </template>
+                    <template v-else>
+
+                        Ovde select box
+
+                    </template>
+
                     <v-text-field
                         v-model="first_name"
                         :class="'mt-2'"
@@ -213,8 +222,10 @@
 
     export default {
         name: 'WorkerCreate',
+        props: ['customer_id'],
         data() {
             return {
+                fk_customer: 0,
                 first_name: '',
                 last_name: '',
                 contract_startMenu: false,
@@ -250,6 +261,18 @@
             },
         },
         methods: {
+            getDataForSave() {
+                return {
+                    first_name: this.first_name,
+                    last_name: this.last_name,
+                    contract_start: this.contract_start,
+                    contract_end: this.contract_end,
+                    active_until_date: this.active_until_date,
+                    send_contract_ended_notification: this.send_contract_ended_notification,
+                    description: this.description,
+                    fk_customer: (this.customer_id) ? this.customer_id : this.fk_customer,
+                };
+            },
             createWorker() {
 
                 let rootComponent = this.$root;
@@ -261,15 +284,7 @@
 
                 axios.get('sanctum/csrf-cookie');
 
-                let sendData = {
-                    first_name: this.first_name,
-                    last_name: this.last_name,
-                    contract_start: this.contract_start,
-                    contract_end: this.contract_end,
-                    active_until_date: this.active_until_date,
-                    send_contract_ended_notification: this.send_contract_ended_notification,
-                    description: this.description,
-                };
+                let sendData = this.getDataForSave();
 
                 console.log('data: ', sendData);
 
