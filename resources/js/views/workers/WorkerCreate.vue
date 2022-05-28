@@ -277,7 +277,7 @@
                 axios.post('api/worker', sendData).then(function(res) {
 
                     // Show toast message.
-                    requestToast.success(`Uspešno unešen radnik: ${res.data.data.name}`);
+                    requestToast.success(`Uspešno unešen radnik: ${res.data.data.first_name} ${res.data.data.last_name}`);
 
                     // Clear field.
                     //currentModels.name = '';
