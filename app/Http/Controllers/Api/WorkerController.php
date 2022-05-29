@@ -54,4 +54,18 @@ class WorkerController extends Controller
         return new JsonResponse($worker);
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(WorkerModel $worker)
+    {
+        WorkerModel::where('id', $worker->id)
+            ->where('fk_company', auth()->user()->company->id)
+            ->delete();
+        return response()->noContent();
+    }
+
 }

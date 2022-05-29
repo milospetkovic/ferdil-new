@@ -217,22 +217,26 @@
 
                     <template v-if="editWorker">
 
-                        <button type="submit" :disabled="disabledSave" class="btn btn-success">
+                        <button type="submit" :disabled="disabledSave" class="btn btn-success mt-1">
                             Sačuvaj
                         </button>
 
-                        <button class="btn btn-outline-secondary float-end" @click="cancel">
+                        <button class="btn btn-outline-secondary float-end mt-1" @click="cancel">
                             Prekini
                         </button>
 
                     </template>
                     <template v-else>
 
-                        <button class="btn btn-warning" @click.prevent="goToEditWorkerMode">
+                        <button class="btn btn-warning mt-1" @click.prevent="goToEditWorkerMode">
                             Izmeni
                         </button>
 
-                        <button class="btn btn-outline-secondary float-end" @click="$router.go(-1)">
+                        <button class="btn btn-danger mt-1" @click.prevent="deleteWorker">
+                            Obriši
+                        </button>
+
+                        <button class="btn btn-outline-secondary float-end mt-1" @click="$router.go(-1)">
                             Povratak
                         </button>
                     </template>
@@ -405,6 +409,46 @@
                         // Lock form for edit.
                         this.editWorker = false;
                     }
+                });
+            },
+            deleteWorker() {
+                let rootComponent = this.$root;
+                let requestToast = this.$toast;
+
+                // Progress bar - show.
+                rootComponent.showProgressBar = true;
+
+                axios.get('sanctum/csrf-cookie');
+
+                // Make a request.
+                axios.delete('api/worker/' + this.worker.id).then((res) => {
+
+                    // Show toast message.
+                    requestToast.success(`Uspešno obrisan radnik`);
+
+                }).catch(function(error) {
+
+                    // Get error message.
+                    let errorMessage = '';
+
+                    if (typeof(error.messages) === 'object') {
+                        Object.entries(error.messages).forEach(([key, val]) => {
+                            errorMessage += val + "\n";
+                        });
+                    } else {
+                        errorMessage = error.message;
+                    }
+
+                    // Show toast message.
+                    requestToast.error(errorMessage);
+
+                }).finally(() => {
+
+                    // Progress bar - hide.
+                    rootComponent.showProgressBar = false;
+
+                    // Redirect user to customer's list of workers.
+                    this.$router.push({ name: 'customer.index', params: { id: this.worker.fk_customer } });
                 });
             },
             cancel() {
