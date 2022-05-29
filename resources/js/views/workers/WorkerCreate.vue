@@ -310,6 +310,7 @@
                     last_name: this.last_name,
                     contract_start: this.contract_start,
                     contract_end: this.contract_end,
+                    jmbg: this.jmbg,
                     active_until_date: this.active_until_date,
                     send_contract_ended_notification: this.send_contract_ended_notification,
                     description: this.description,

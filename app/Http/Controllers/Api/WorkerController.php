@@ -39,4 +39,19 @@ class WorkerController extends Controller
         return new JsonResponse($worker);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param WorkerRequest $request
+     * @param WorkerModel $worker
+     * @return JsonResponse
+     */
+    public function update(WorkerRequest $request, WorkerModel $worker)
+    {
+        if ($request->validated()) {
+            $worker->update($request->all());
+        }
+        return new JsonResponse($worker);
+    }
+
 }

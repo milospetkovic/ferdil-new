@@ -11,7 +11,7 @@
             </strong>
         </div>
         <div class="card-body">
-            <form @submit.prevent="createWorker">
+            <form @submit.prevent="updateWorker">
                 <div class="form-group row">
 
                     <v-select
@@ -229,7 +229,7 @@
                     <template v-else>
 
                         <button class="btn btn-warning" @click.prevent="goToEditWorkerMode">
-                            Ažuriraj
+                            Izmeni
                         </button>
 
                         <button class="btn btn-outline-secondary float-end" @click="$router.go(-1)">
@@ -350,13 +350,14 @@
                     last_name: this.last_name,
                     contract_start: this.contract_start,
                     contract_end: this.contract_end,
+                    jmbg: this.jmbg,
                     active_until_date: this.active_until_date,
                     send_contract_ended_notification: this.send_contract_ended_notification,
                     description: this.description,
                     fk_customer: (this.customer_id) ? this.customer_id : this.customersSelect,
                 };
             },
-            createWorker() {
+            updateWorker() {
 
                 let rootComponent = this.$root;
                 let requestToast = this.$toast;
@@ -372,10 +373,10 @@
                 console.log('data: ', sendData);
 
                 // Make a request.
-                axios.post('api/worker', sendData).then(function(res) {
+                axios.put('api/worker/' + this.worker.id, sendData).then(function(res) {
 
                     // Show toast message.
-                    requestToast.success(`Uspešno unešen radnik: ${res.data.data.first_name} ${res.data.data.last_name}`);
+                    requestToast.success(`Uspešno ažuriran radnik: ${res.data.first_name} ${res.data.last_name}`);
 
                     successAction = true;
 
@@ -401,8 +402,8 @@
                     rootComponent.showProgressBar = false;
 
                     if (successAction) {
-                        // Clear fields.
-                        this.clearFormFields();
+                        // Lock form for edit.
+                        this.editWorker = false;
                     }
                 });
             },
