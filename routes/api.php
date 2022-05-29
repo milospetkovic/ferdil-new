@@ -34,8 +34,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     // Worker resource.
     Route::apiResource('worker','App\Http\Controllers\Api\WorkerController' );
 
-    // Get user's workers.
-    Route::get('/user/workers', [ WorkerController::class, 'getUserWorkersList' ])->name('user.workers.list');
+    // Get workers.
+    Route::get('/workers', [ WorkerController::class, 'getWorkersList' ])->name('workers.list');
 
     // Customers list.
     //Route::get('customers/list', [ App\Http\Controllers\Api\CustomerController::class, 'listCustomers' ]);

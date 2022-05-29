@@ -8,6 +8,7 @@ use App\Http\Resources\WorkerResource;
 use App\Models\Worker as WorkerModel;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Http\Services\Api\WorkerService;
 
 class WorkerController extends Controller
 {
@@ -21,6 +22,14 @@ class WorkerController extends Controller
     public function getUserWorkers()
     {
         return WorkerResource::collection(WorkerModel::where('fk_company', auth()->user()->company->id)->get());
+    }
+
+    public function getWorkersList(Request $request)
+    {
+        $workersSql = (new WorkerService)->getWorkersSql();
+        $workersSql->orderBy('c.name', 'asc');
+        $workers = $workersSql->get();
+        return new JsonResponse($workers);
     }
 
     public function store(WorkerRequest $request)

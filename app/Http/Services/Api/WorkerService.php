@@ -2,18 +2,17 @@
 
 namespace App\Http\Services\Api;
 
-use DB;
 use App\Models\Worker as WorkerModel;
 use App\Models\Customer as CustomerModel;
+use Illuminate\Support\Facades\DB;
 
 class WorkerService
 {
-
     public function getWorkersSql()
     {
         return DB::table(WorkerModel::getTableName().' AS w')
             ->join(CustomerModel::getTableName().' AS c', 'c.id', '=', 'w.fk_customer')
-            ->select('c.id', 'c.name',
+            ->select('c.id as customer_id', 'c.name as customer_name',
                 // Count all workers linked with customer.
                 DB::raw('(SELECT COUNT(*) FROM workers as w1 WHERE w1.fk_customer = c.id) AS customer_count_all_workers'),
                 // Count active workers linked with customer.

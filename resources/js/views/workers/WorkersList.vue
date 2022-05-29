@@ -45,15 +45,15 @@
                     color="primary" />
             </template>
             <template v-else>
-                <template v-if="customerWorkers.length">
+                <template v-if="workers.length">
                     <v-data-table
                         :headers="workers_table_header"
-                        :items="getCustomerWorkers"
+                        :items="getWorkers"
                         :items-per-page="this.$store.getters.getNumberOfPaginationItems"
                         class="elevation-1"
                         :search="search"
-                        :custom-filter="searchCustomerWorkers"
-                        @click:row="showCustomerWorker"
+                        :custom-filter="searchWorkers"
+                        @click:row="showWorker"
                         item-key="worker_id"
                         :options.sync="options"
                         :footer-props="{
@@ -65,12 +65,12 @@
                         <template v-slot:top>
                             <v-text-field
                                 v-model="search"
-                                label="Pretraga radnika komitenta"
+                                label="Pretraga radnika"
                                 class="mx-4"
                             ></v-text-field>
 
                             <v-checkbox
-                                v-if="getCountOfUnactiveCustomerWorkers > 0"
+                                v-if="getCountOfUnactiveWorkers > 0"
                                 dense
                                 v-model="showUnactiveWorkers"
                                 :label="'Prikaži i neaktivne radnike'"
@@ -148,6 +148,12 @@
                 showUnactiveWorkers: false,
                 workers_table_header: [
                     {
+                        text: 'Komitent',
+                        align: 'start',
+                        sortable: true,
+                        value: 'customer_name',
+                    },
+                    {
                         text: 'Prezime',
                         align: 'start',
                         sortable: true,
@@ -202,7 +208,7 @@
                         value: 'description',
                     },
                 ],
-                customerWorkers: {},
+                workers: {},
                 showLoadingIcon: false,
                 options: {},
                 icons: {
@@ -220,8 +226,7 @@
         mounted() {
             let rootComponent = this.$root;
             let requestToast = this.$toast;
-            let fetchedCustomerWorkers = this.customerWorkers;
-            let fetchedCustomer = this.customer;
+            let fetchedWorkers = this.workers;
 
             // Progress bar - show.
             rootComponent.showProgressBar = true;
@@ -231,8 +236,7 @@
             // Make a request.
             axios.get('api/workers').then(function(res) {
 
-                fetchedCustomerWorkers = res.data.customer_workers;
-                fetchedCustomer = res.data.customer;
+                fetchedWorkers = res.data;
 
             }).catch(function(error) {
 
@@ -255,8 +259,9 @@
                 // Progress bar - hide.
                 rootComponent.showProgressBar = false;
 
-                this.customer = fetchedCustomer;
-                this.customerWorkers = fetchedCustomerWorkers;
+                console.log('fetchedWorkers: ', fetchedWorkers);
+
+                this.workers = fetchedWorkers;
 
                 this.showLoadingIcon = false;
             });
@@ -275,34 +280,34 @@
             getCustomerName() {
                 return this.customer.name;
             },
-            getCustomerWorkers() {
+            getWorkers() {
                 if (!this.showUnactiveWorkers) {
                     // Get active workers only.
-                    return this.customerWorkers.filter(worker => {
+                    return this.workers.filter(worker => {
                         return (worker.inactive != 1) }
                     );
                 }
                 // Get all workers.
-                return this.customerWorkers;
+                return this.workers;
             },
-            getCountOfAllCustomerWorkers() {
-                return this.countOfAllCustomerWorkers();
+            getCountOfAllWorkers() {
+                return this.countOfAllWorkers();
             },
-            getCountOfActiveCustomerWorkers() {
-                return this.countOfActiveCustomerWorkers();
+            getCountOfActiveWorkers() {
+                return this.countOfActiveWorkers();
             },
-            getCountOfUnactiveCustomerWorkers() {
-                return this.getCountOfAllCustomerWorkers - this.getCountOfActiveCustomerWorkers;
+            getCountOfUnactiveWorkers() {
+                return this.getCountOfAllWorkers - this.getCountOfActiveWorkers;
             },
         },
         methods: {
-            searchCustomerWorkers (value, search, item) {
+            searchWorkers (value, search, item) {
                 return value != null &&
                     search != null &&
                     typeof value === 'string' &&
                     value.toString().toLocaleLowerCase().indexOf(search.toString().toLocaleLowerCase()) !== -1
             },
-            showCustomerWorker(row) {
+            showWorker(row) {
                 this.$router.push({ name: 'worker.show', params: { id: row.worker_id }})
             },
             getWorkerInactiveColor(inactive) {
@@ -321,15 +326,15 @@
                 if (value == 1) return 'DA';
                 return 'NE';
             },
-            countOfAllCustomerWorkers() {
-                if (this.customerWorkers.length) {
-                    return this.customerWorkers[0].customer_count_all_workers;
+            countOfAllWorkers() {
+                if (this.workers.length) {
+                    return this.workers[0].customer_count_all_workers;
                 }
                 return 0;
             },
-            countOfActiveCustomerWorkers() {
-                if (this.customerWorkers.length) {
-                    return this.customerWorkers[0].customer_count_active_workers;
+            countOfActiveWorkers() {
+                if (this.workers.length) {
+                    return this.workers[0].customer_count_active_workers;
                 }
                 return 0;
             },
@@ -337,57 +342,8 @@
                 // Redirect user to home page.
                 this.$router.push('/');
             },
-            goToEditCustomerPage() {
-                this.$router.push({ name: 'customer.edit', params: { id: this.customer.id }})
-            },
-            deleteCustomer(id) {
-
-                let rootComponent = this.$root;
-                let requestToast = this.$toast;
-
-                // Progress bar - show.
-                rootComponent.showProgressBar = true;
-
-                axios.get('sanctum/csrf-cookie');
-
-                // Make a request.
-                axios.delete('api/customer/' + this.customer.id).then(function(res) {
-
-                    // Show toast message.
-                    requestToast.success(`Uspešno obrisan komitent`);
-
-                }).catch(function(error) {
-
-                    // Get error message.
-                    let errorMessage = '';
-
-                    if (typeof(error.messages) === 'object') {
-                        Object.entries(error.messages).forEach(([key, val]) => {
-                            errorMessage += val + "\n";
-                        });
-                    } else {
-                        errorMessage = error.message;
-                    }
-
-                    // Show toast message.
-                    requestToast.error(errorMessage);
-
-                }).finally(() => {
-
-                    // Progress bar - hide.
-                    rootComponent.showProgressBar = false;
-
-                    // Redirect user to list of customers.
-                    this.$router.push({ name: 'customers.list' });
-                });
-            },
             goToCreateWorkerPage() {
-                this.$router.push({ name: 'worker.create',
-                    params: {
-                        //customer_id: this.customer.id,
-                        //customer_name: this.customer.name,
-                    }
-                })
+                this.$router.push({ name: 'worker.create' });
             },
         }
     }
