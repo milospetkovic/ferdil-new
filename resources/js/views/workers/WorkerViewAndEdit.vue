@@ -11,7 +11,7 @@
             </strong>
         </div>
         <div class="card-body">
-            <form @submit.prevent="createWorker">
+            <form @submit.prevent="updateWorker">
                 <div class="form-group row">
 
                     <v-select
@@ -23,7 +23,7 @@
                         item-value="id"
                         outlined
                         dense
-                        disabled="lockFields"
+                        :disabled="lockFields"
                     ></v-select>
 
                     <v-text-field
@@ -31,7 +31,7 @@
                         label="Ime radnika"
                         outlined
                         dense
-                        disabled="lockFields"
+                        :disabled="lockFields"
                     >
                     </v-text-field>
 
@@ -40,7 +40,7 @@
                         label="Prezime radnika"
                         outlined
                         dense
-                        disabled="lockFields"
+                        :disabled="lockFields"
                     >
                     </v-text-field>
 
@@ -64,7 +64,7 @@
                                 @click:clear="contract_start = null"
                                 outlined
                                 dense
-                                disabled="lockFields"
+                                :disabled="lockFields"
                             ></v-text-field>
                         </template>
                         <v-date-picker
@@ -111,7 +111,7 @@
                                 @click:clear="contract_end = null"
                                 outlined
                                 dense
-                                disabled="lockFields"
+                                :disabled="lockFields"
                             ></v-text-field>
                         </template>
                         <v-date-picker
@@ -143,7 +143,7 @@
                         label="JMBG"
                         outlined
                         dense
-                        disabled="lockFields"
+                        :disabled="lockFields"
                     >
                     </v-text-field>
 
@@ -167,7 +167,7 @@
                                 @click:clear="active_until_date = null"
                                 outlined
                                 dense
-                                disabled="lockFields"
+                                :disabled="lockFields"
                             ></v-text-field>
                         </template>
                         <v-date-picker
@@ -196,8 +196,8 @@
 
                     <v-checkbox
                         v-model="send_contract_ended_notification"
-                        :label="`Šalji notifikaciju za istek ugovora: ${send_contract_ended_notification.toString()}`"
-                        disabled="lockFields"
+                        :label="`Šalji notifikaciju za istek ugovora`"
+                        :disabled="lockFields"
                     ></v-checkbox>
 
                     <v-textarea
@@ -207,7 +207,7 @@
                         hint="Kratka beleška u vezi radnika"
                         outlined
                         dense
-                        disabled="lockFields"
+                        :disabled="lockFields"
                     >
                     </v-textarea>
 
@@ -215,13 +215,31 @@
 
                 <div class="form-group row mb-0">
 
-                    <button type="submit" :disabled="disabledSave" class="btn btn-success">
-                        Sačuvaj
-                    </button>
+                    <template v-if="editWorker">
 
-                    <button class="btn btn-outline-secondary float-end" @click="cancel">
-                        Prekini
-                    </button>
+                        <button type="submit" :disabled="disabledSave" class="btn btn-success mt-1">
+                            Sačuvaj
+                        </button>
+
+                        <button class="btn btn-outline-secondary float-end mt-1" @click="cancel">
+                            Prekini
+                        </button>
+
+                    </template>
+                    <template v-else>
+
+                        <button class="btn btn-warning mt-1" @click.prevent="goToEditWorkerMode">
+                            Izmeni
+                        </button>
+
+                        <button class="btn btn-danger mt-1" @click.prevent="deleteWorker">
+                            Obriši
+                        </button>
+
+                        <button class="btn btn-outline-secondary float-end mt-1" @click="$router.go(-1)">
+                            Povratak
+                        </button>
+                    </template>
 
                 </div>
             </form>
@@ -336,13 +354,14 @@
                     last_name: this.last_name,
                     contract_start: this.contract_start,
                     contract_end: this.contract_end,
+                    jmbg: this.jmbg,
                     active_until_date: this.active_until_date,
                     send_contract_ended_notification: this.send_contract_ended_notification,
                     description: this.description,
                     fk_customer: (this.customer_id) ? this.customer_id : this.customersSelect,
                 };
             },
-            createWorker() {
+            updateWorker() {
 
                 let rootComponent = this.$root;
                 let requestToast = this.$toast;
@@ -358,10 +377,10 @@
                 console.log('data: ', sendData);
 
                 // Make a request.
-                axios.post('api/worker', sendData).then(function(res) {
+                axios.put('api/worker/' + this.worker.id, sendData).then(function(res) {
 
                     // Show toast message.
-                    requestToast.success(`Uspešno unešen radnik: ${res.data.data.first_name} ${res.data.data.last_name}`);
+                    requestToast.success(`Uspešno ažuriran radnik: ${res.data.first_name} ${res.data.last_name}`);
 
                     successAction = true;
 
@@ -387,9 +406,49 @@
                     rootComponent.showProgressBar = false;
 
                     if (successAction) {
-                        // Clear fields.
-                        this.clearFormFields();
+                        // Lock form for edit.
+                        this.editWorker = false;
                     }
+                });
+            },
+            deleteWorker() {
+                let rootComponent = this.$root;
+                let requestToast = this.$toast;
+
+                // Progress bar - show.
+                rootComponent.showProgressBar = true;
+
+                axios.get('sanctum/csrf-cookie');
+
+                // Make a request.
+                axios.delete('api/worker/' + this.worker.id).then((res) => {
+
+                    // Show toast message.
+                    requestToast.success(`Uspešno obrisan radnik`);
+
+                }).catch(function(error) {
+
+                    // Get error message.
+                    let errorMessage = '';
+
+                    if (typeof(error.messages) === 'object') {
+                        Object.entries(error.messages).forEach(([key, val]) => {
+                            errorMessage += val + "\n";
+                        });
+                    } else {
+                        errorMessage = error.message;
+                    }
+
+                    // Show toast message.
+                    requestToast.error(errorMessage);
+
+                }).finally(() => {
+
+                    // Progress bar - hide.
+                    rootComponent.showProgressBar = false;
+
+                    // Redirect user to customer's list of workers.
+                    this.$router.push({ name: 'customer.index', params: { id: this.worker.fk_customer } });
                 });
             },
             cancel() {
@@ -414,6 +473,9 @@
                 this.jmbg = this.worker.jmbg;
                 this.active_until_date = this.worker.active_until_date;
                 this.description = this.worker.description;
+            },
+            goToEditWorkerMode() {
+                this.editWorker = !this.editWorker;
             }
         }
     }

@@ -39,4 +39,33 @@ class WorkerController extends Controller
         return new JsonResponse($worker);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param WorkerRequest $request
+     * @param WorkerModel $worker
+     * @return JsonResponse
+     */
+    public function update(WorkerRequest $request, WorkerModel $worker)
+    {
+        if ($request->validated()) {
+            $worker->update($request->all());
+        }
+        return new JsonResponse($worker);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Customer  $customer
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(WorkerModel $worker)
+    {
+        WorkerModel::where('id', $worker->id)
+            ->where('fk_company', auth()->user()->company->id)
+            ->delete();
+        return response()->noContent();
+    }
+
 }
