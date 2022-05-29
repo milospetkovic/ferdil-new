@@ -23,7 +23,7 @@
                         item-value="id"
                         outlined
                         dense
-                        disabled="lockFields"
+                        :disabled="lockFields"
                     ></v-select>
 
                     <v-text-field
@@ -31,7 +31,7 @@
                         label="Ime radnika"
                         outlined
                         dense
-                        disabled="lockFields"
+                        :disabled="lockFields"
                     >
                     </v-text-field>
 
@@ -40,7 +40,7 @@
                         label="Prezime radnika"
                         outlined
                         dense
-                        disabled="lockFields"
+                        :disabled="lockFields"
                     >
                     </v-text-field>
 
@@ -64,7 +64,7 @@
                                 @click:clear="contract_start = null"
                                 outlined
                                 dense
-                                disabled="lockFields"
+                                :disabled="lockFields"
                             ></v-text-field>
                         </template>
                         <v-date-picker
@@ -111,7 +111,7 @@
                                 @click:clear="contract_end = null"
                                 outlined
                                 dense
-                                disabled="lockFields"
+                                :disabled="lockFields"
                             ></v-text-field>
                         </template>
                         <v-date-picker
@@ -143,7 +143,7 @@
                         label="JMBG"
                         outlined
                         dense
-                        disabled="lockFields"
+                        :disabled="lockFields"
                     >
                     </v-text-field>
 
@@ -167,7 +167,7 @@
                                 @click:clear="active_until_date = null"
                                 outlined
                                 dense
-                                disabled="lockFields"
+                                :disabled="lockFields"
                             ></v-text-field>
                         </template>
                         <v-date-picker
@@ -196,8 +196,8 @@
 
                     <v-checkbox
                         v-model="send_contract_ended_notification"
-                        :label="`Šalji notifikaciju za istek ugovora: ${send_contract_ended_notification.toString()}`"
-                        disabled="lockFields"
+                        :label="`Šalji notifikaciju za istek ugovora`"
+                        :disabled="lockFields"
                     ></v-checkbox>
 
                     <v-textarea
@@ -207,7 +207,7 @@
                         hint="Kratka beleška u vezi radnika"
                         outlined
                         dense
-                        disabled="lockFields"
+                        :disabled="lockFields"
                     >
                     </v-textarea>
 
@@ -215,13 +215,27 @@
 
                 <div class="form-group row mb-0">
 
-                    <button type="submit" :disabled="disabledSave" class="btn btn-success">
-                        Sačuvaj
-                    </button>
+                    <template v-if="editWorker">
 
-                    <button class="btn btn-outline-secondary float-end" @click="cancel">
-                        Prekini
-                    </button>
+                        <button type="submit" :disabled="disabledSave" class="btn btn-success">
+                            Sačuvaj
+                        </button>
+
+                        <button class="btn btn-outline-secondary float-end" @click="cancel">
+                            Prekini
+                        </button>
+
+                    </template>
+                    <template v-else>
+
+                        <button class="btn btn-warning" @click.prevent="goToEditWorkerMode">
+                            Ažuriraj
+                        </button>
+
+                        <button class="btn btn-outline-secondary float-end" @click="$router.go(-1)">
+                            Povratak
+                        </button>
+                    </template>
 
                 </div>
             </form>
@@ -414,6 +428,9 @@
                 this.jmbg = this.worker.jmbg;
                 this.active_until_date = this.worker.active_until_date;
                 this.description = this.worker.description;
+            },
+            goToEditWorkerMode() {
+                this.editWorker = !this.editWorker;
             }
         }
     }
