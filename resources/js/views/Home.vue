@@ -21,12 +21,12 @@
                 </div>
 
                 <div class="my-2">
-                    <a class="btn btn-info" href="#nogo">
+                    <router-link to="/workers" :class="'btn btn-info'">
                         Lista radnika
-                        <span class="badge bg-secondary" title="Ukupan broj i broj aktivnih radnika">
-                            {{ userTotalWorkersCount }} ({{ userActiveWorkersCount }})
+                        <span class="badge bg-secondary" title="Broj aktivnih radnika i ukupan broj">
+                            {{ userActiveWorkersCount }} ({{ userTotalWorkersCount }})
                         </span>
-                    </a>
+                    </router-link>
                 </div>
 
                 <div class="my-2">

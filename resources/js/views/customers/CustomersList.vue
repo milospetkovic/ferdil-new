@@ -21,16 +21,16 @@
                         @click:row="showCustomer"
                     >
                         <template #item.customer_workers_count="{ item }">
-                            <span class="badge alert-info" title="Broj radnika za komitenta">
-                                {{ item.customer_count_all_workers }}
-                                <span title="Broj aktivnih radnika">({{ item.customer_count_active_workers }})</span>
+                            <span class="badge alert-info" title="Broj aktivnih radnika za komitenta">
+                                {{ item.customer_count_active_workers }}
+                                <span title="Ukupan broj radnika za komitenta">({{ item.customer_count_all_workers }})</span>
                             </span>
                         </template>
 
                         <template v-slot:top>
                             <v-text-field
                                 v-model="search"
-                                label="Pretraga komitenata"
+                                label="Pretraga radnika"
                                 class="mx-4"
                             ></v-text-field>
                         </template>
