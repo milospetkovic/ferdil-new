@@ -97,7 +97,8 @@ class CustomerController extends Controller
     {
         $customer = CustomerModel::findOrFail($customerId);
         $customerWorkersSql = (new WorkerService)->getWorkersSql();
-        $customerWorkersSql->orderBy('w.last_name', 'asc');
+        $customerWorkersSql->where('c.id', $customer->id)
+            ->orderBy('w.last_name', 'asc');
         $customerWorkers = $customerWorkersSql->get();
 
         $data = [
