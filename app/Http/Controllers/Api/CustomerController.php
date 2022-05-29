@@ -12,6 +12,7 @@ use App\Http\Resources\CustomerResource;
 use App\Models\Customer as CustomerModel;
 use App\Http\Requests\CustomerRequest;
 use App\Models\Worker as WorkerModel;
+use App\Http\Services\Api\WorkerService;
 
 class CustomerController extends Controller
 {
@@ -95,22 +96,8 @@ class CustomerController extends Controller
     public function getCustomerWorkers($customerId, Request $request)
     {
         $customer = CustomerModel::findOrFail($customerId);
-
-        $customerWorkersSql = DB::table(WorkerModel::getTableName().' AS w')
-            ->join(CustomerModel::getTableName().' AS c', 'c.id', '=', 'w.fk_customer')
-            ->select('c.id', 'c.name',
-                // Count all workers linked with customer.
-                DB::raw('(SELECT COUNT(*) FROM workers as w1 WHERE w1.fk_customer = c.id) AS customer_count_all_workers'),
-                // Count active workers linked with customer.
-                DB::raw('(SELECT COUNT(*) FROM workers as w2 WHERE w2.fk_customer = c.id AND (w2.inactive != 1 OR w2.inactive IS NULL)) AS customer_count_active_workers'),
-                'w.id as worker_id', 'w.first_name', 'w.last_name', 'w.contract_start', 'w.contract_end', 'w.jmbg', 'w.inactive',
-                'w.active_until_date', 'w.send_contract_ended_notification', 'w.description'
-            )
-            ->where('c.fk_company', auth()->user()->company->id)
-            ->where('c.id', $customer->id)
-            ->orderBy('w.last_name', 'asc')
-        ;
-
+        $customerWorkersSql = (new WorkerService)->getWorkersSql();
+        $customerWorkersSql->orderBy('w.last_name', 'asc');
         //$sql = $customerWorkersSql->toSql();
         $customerWorkers = $customerWorkersSql->get();
 
