@@ -22,19 +22,9 @@
 
     <!-- Scripts -->
     <script>
-
-        function setFirebaseToken() {
-            JSInterface.onTokenReceived("YOUR_FIREBASE_TOKEN");
-
-            alert('Called, keep up..');
-        }
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
         ]); ?>
-
-        window.onload = function() {
-            setFirebaseToken();
-        };
     </script>
 
 </head>
