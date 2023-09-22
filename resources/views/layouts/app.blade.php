@@ -127,6 +127,7 @@
             $(this).closest('form').submit();
         });
         $(".dropdown-toggle").dropdown();
+        setFirebaseToken('test');
     </script>
 
 </body>
