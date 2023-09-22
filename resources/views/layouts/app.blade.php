@@ -23,11 +23,7 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <!-- Scripts -->
-    <script type="javascript">
-        function setFirebaseToken(token) {
-            localStorage.setItem('firebaseToken', token);
-            alert('token set: ' + localStorage.getItem('firebaseToken'));
-        };
+    <script type="application/javascript">
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
         ]); ?>;
@@ -120,15 +116,20 @@
     @yield('pagescript')
     @yield('scripts')
 
-    <script type="javascript">
+    <script type="application/javascript">
         $('#flash-overlay-modal').modal();
         $('div.alert').not('.alert-important').delay(2000).fadeOut(350);
         $('.show-inactive').click(function() {
             $(this).closest('form').submit();
         });
         $(".dropdown-toggle").dropdown();
-
-        setFirebaseToken('test');
+        function setFirebaseToken(token) {
+            localStorage.setItem('firebaseToken', token);
+            alert('token set: ' + localStorage.getItem('firebaseToken'));
+        };
+        $(document).ready(function () {
+            setFirebaseToken('test');
+        });
     </script>
 
 </body>
