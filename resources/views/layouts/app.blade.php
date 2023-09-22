@@ -23,7 +23,7 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <!-- Scripts -->
-    <script>
+    <script type="javascript"">
         function setFirebaseToken(token) {
             localStorage.setItem('firebaseToken', token);
             alert('token set: ' + localStorage.getItem('firebaseToken'));
