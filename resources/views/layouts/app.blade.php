@@ -27,6 +27,10 @@
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
         ]); ?>
+        function setFirebaseToken(token) {
+            localStorage.setItem('firebaseToken', token);
+            alert('token set: ' + localStorage.getItem('firebaseToken'));
+        }
     </script>
 
 </head>
