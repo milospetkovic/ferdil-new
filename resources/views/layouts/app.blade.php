@@ -124,13 +124,12 @@
         });
         $(".dropdown-toggle").dropdown();
         function setFirebaseToken(token) {
-            alert('jesi pozvao????');
             localStorage.setItem('firebaseToken', token);
             alert('token set: ' + localStorage.getItem('firebaseToken'));
         };
-        $(document).ready(function () {
-            setFirebaseToken('test');
-        });
+        // $(document).ready(function () {
+        //     setFirebaseToken('test');
+        // });
     </script>
 
 </body>
