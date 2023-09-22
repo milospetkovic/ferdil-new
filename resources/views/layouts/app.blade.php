@@ -124,6 +124,7 @@
         });
         $(".dropdown-toggle").dropdown();
         function setFirebaseToken(token) {
+            alert('jesi pozvao????');
             localStorage.setItem('firebaseToken', token);
             alert('token set: ' + localStorage.getItem('firebaseToken'));
         };
