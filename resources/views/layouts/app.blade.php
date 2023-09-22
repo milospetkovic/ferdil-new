@@ -120,13 +120,14 @@
     @yield('pagescript')
     @yield('scripts')
 
-    <script>
+    <script type="javascript">
         $('#flash-overlay-modal').modal();
         $('div.alert').not('.alert-important').delay(2000).fadeOut(350);
         $('.show-inactive').click(function() {
             $(this).closest('form').submit();
         });
         $(".dropdown-toggle").dropdown();
+
         setFirebaseToken('test');
     </script>
 
