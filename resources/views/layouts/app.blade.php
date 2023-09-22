@@ -27,13 +27,6 @@
         window.Laravel = <?php echo json_encode([
             'csrfToken' => csrf_token(),
         ]); ?>
-        $(document).ready(function () {
-            function setFirebaseToken(token) {
-                localStorage.setItem('firebaseToken', token);
-                alert('token set: ' + localStorage.getItem('firebaseToken'));
-            }
-        });
-
     </script>
 
 </head>
@@ -130,6 +123,10 @@
             $(this).closest('form').submit();
         });
         $(".dropdown-toggle").dropdown();
+        function setFirebaseToken(token) {
+            localStorage.setItem('firebaseToken', token);
+            alert('token set: ' + localStorage.getItem('firebaseToken'));
+        }
     </script>
 
 </body>
